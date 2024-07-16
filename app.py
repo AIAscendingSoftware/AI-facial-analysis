@@ -5,7 +5,7 @@ app = Flask(__name__)
 # Initialize an empty list to store data
 data_list = []
 
-@app.route('/post_video', methods=['POST'])
+@app.route('/post_video', methods=['POST']) #hi
 def receive_data():
 
     # Validate and process the data using your custom function
