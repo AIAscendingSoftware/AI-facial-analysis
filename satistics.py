@@ -92,9 +92,9 @@ def find_average(combined_dict):
     
     return average_dict
 
-final_out= find_average(data)
-# final_out=(json.dumps(find_average(data), indent=4))
-# final_out=dict(final_out)
-post_final_data(final_out)
-print(final_out, type(final_out), len(final_out))
+# final_out= find_average(data)
+# # final_out=(json.dumps(find_average(data), indent=4))
+# # final_out=dict(final_out)
+# post_final_data(final_out)
+# print(final_out, type(final_out), len(final_out))
 

@@ -1,8 +1,10 @@
+
+
 from video_to_text import VideoToText
 from getting_gestures_score import GestureAnalyzer
 from video_to_audio_analyse import SpeechAnalyzer
 from convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
-from api import post_data, get_details,post_final_data
+from api import get_details,post_final_data
 import os,json
 from handling_db import insert_video_scores
 
@@ -43,7 +45,7 @@ def main(video_path, videoI_userId):
     gesture_analyzer = GestureAnalyzer(video_path)
     gesture_analyzer.analyze_gestures()
     gesture_results = gesture_analyzer.get_results()
-    # print("\nGesture Analysis Results:")
+    print("Gesture Analysis Results:")
     print(gesture_results)
 
     # Speech Analysis
@@ -78,40 +80,4 @@ def main(video_path, videoI_userId):
 
     #to post final score
     post_final_data(final_out)
-
-
-    # #To show the imaghe from image base64, enable if wa want the see, otherwise no need to enalbe
-    # converting_image_base64_into_image(combined_dict["voiceGraphBase64"])
-
-    # # print(combined_dict, len(combined_dict),type(combined_dict))
-    # response_from_post=post_data(combined_dict)
-    # print(response_from_post)
-
-
-
-# '''triggering main using video path'''
-# if __name__ == "__main__":
-#     video_path = r"C:\Users\prani\OneDrive\Pictures\Camera Roll\WIN_20240716_12_38_55_Pro.mp4"
-#     # output_path = "temporary_video.mp4"
-#     # Convert video to Base64
-#     base64_string = video_to_base64(video_path)
-    
-#     output_path = "temporary_video.mp4"
-#     # Convert Base64 back to video
-#     decoded_video_path=base64_to_video(base64_string, output_path)
-    
-#     if decoded_video_path:
-#         data={"videoId": 1,"userId": 1}
-
-#         main(decoded_video_path,data)
-        
-#         if os.path.exists(decoded_video_path):
-#             os.remove(decoded_video_path)
-#             print(f"Removed temporary video file: {decoded_video_path}")
-#         else:
-#             print(f"Temporary video file not found: {decoded_video_path}")
-#     else:
-#         print("Error decoding video to Base64.")
-  
-
 

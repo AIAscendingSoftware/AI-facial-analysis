@@ -128,77 +128,90 @@
 #     print(f"Failed to fetch data. Status code: {response.status_code}")
 
 
-data=[
-    {
-        "id": 1,
-        "userId": 1,
-        "videoId": 1,
-        "overAllScroe": 27.51135705097983,
-        "fcialScore": 12.614784925905141,
-        "happy": 0.0,
-        "nautral": 0.0,
-        "surprise": 0.0,
-        "angry": 0.0,
-        "disgust": 0.0,
-        "fear": 0.0,
-        "sad": 0.0,
-        "faceConfidence": 0.9182794072411277,
-        "communicationScore": 33.5,
-        "grammar": 1.0,
-        "fluency": 0.0,
-        "pronunciation": 0.5,
-        "speechScore": 21.10236044973135,
-        "tone": 0.3076171875,
-        "voiceConfidence": 0.114430021494627,
-        "speechRate": 72.28915662650603,
-        "bodyLanguageScore": 42.82828282828282,
-        "lookingStraight": 100.0,
-        "smileCount": 7.2727272727272725,
-        "handUsage": 34.54545454545455,
-        "armsCrossed": 96.36363636363636,
-        "wristsClosed": 0.0,
-        "weightOnOneLeg": 0.0,
-        "legMovement": 47.27272727272727,
-        "weightBalancedOnBothLegs": 0.0,
-        "eyeContact": 100.0,
-        "voiceGraphBase64": "voice_graph_base64"
-    },
-    {
-        "id": 2,
-        "userId": 1,
-        "videoId": 2,
-        "overAllScroe": 27.51135705097983,
-        "fcialScore": 12.614784925905141,
-        "happy": 0.0,
-        "nautral": 0.0,
-        "surprise": 0.0,
-        "angry": 0.0,
-        "disgust": 0.0,
-        "fear": 0.0,
-        "sad": 0.0,
-        "faceConfidence": 0.9182794072411277,
-        "communicationScore": 33.5,
-        "grammar": 1.0,
-        "fluency": 0.0,
-        "pronunciation": 0.5,
-        "speechScore": 21.10236044973135,
-        "tone": 0.3076171875,
-        "voiceConfidence": 0.114430021494627,
-        "speechRate": 72.28915662650603,
-        "bodyLanguageScore": 42.82828282828282,
-        "lookingStraight": 100.0,
-        "smileCount": 7.2727272727272725,
-        "handUsage": 34.54545454545455,
-        "armsCrossed": 96.36363636363636,
-        "wristsClosed": 0.0,
-        "weightOnOneLeg": 0.0,
-        "legMovement": 47.27272727272727,
-        "weightBalancedOnBothLegs": 0.0,
-        "eyeContact": 100.0,
-        "voiceGraphBase64": "iVBORw0KGgoAAAANSUhEUgAADhAA"
-    }
-]
+# data=[
+#     {
+#         "id": 1,
+#         "userId": 1,
+#         "videoId": 1,
+#         "overAllScroe": 27.51135705097983,
+#         "fcialScore": 12.614784925905141,
+#         "happy": 0.0,
+#         "nautral": 0.0,
+#         "surprise": 0.0,
+#         "angry": 0.0,
+#         "disgust": 0.0,
+#         "fear": 0.0,
+#         "sad": 0.0,
+#         "faceConfidence": 0.9182794072411277,
+#         "communicationScore": 33.5,
+#         "grammar": 1.0,
+#         "fluency": 0.0,
+#         "pronunciation": 0.5,
+#         "speechScore": 21.10236044973135,
+#         "tone": 0.3076171875,
+#         "voiceConfidence": 0.114430021494627,
+#         "speechRate": 72.28915662650603,
+#         "bodyLanguageScore": 42.82828282828282,
+#         "lookingStraight": 100.0,
+#         "smileCount": 7.2727272727272725,
+#         "handUsage": 34.54545454545455,
+#         "armsCrossed": 96.36363636363636,
+#         "wristsClosed": 0.0,
+#         "weightOnOneLeg": 0.0,
+#         "legMovement": 47.27272727272727,
+#         "weightBalancedOnBothLegs": 0.0,
+#         "eyeContact": 100.0,
+#         "voiceGraphBase64": "voice_graph_base64"
+#     },
+#     {
+#         "id": 2,
+#         "userId": 1,
+#         "videoId": 2,
+#         "overAllScroe": 27.51135705097983,
+#         "fcialScore": 12.614784925905141,
+#         "happy": 0.0,
+#         "nautral": 0.0,
+#         "surprise": 0.0,
+#         "angry": 0.0,
+#         "disgust": 0.0,
+#         "fear": 0.0,
+#         "sad": 0.0,
+#         "faceConfidence": 0.9182794072411277,
+#         "communicationScore": 33.5,
+#         "grammar": 1.0,
+#         "fluency": 0.0,
+#         "pronunciation": 0.5,
+#         "speechScore": 21.10236044973135,
+#         "tone": 0.3076171875,
+#         "voiceConfidence": 0.114430021494627,
+#         "speechRate": 72.28915662650603,
+#         "bodyLanguageScore": 42.82828282828282,
+#         "lookingStraight": 100.0,
+#         "smileCount": 7.2727272727272725,
+#         "handUsage": 34.54545454545455,
+#         "armsCrossed": 96.36363636363636,
+#         "wristsClosed": 0.0,
+#         "weightOnOneLeg": 0.0,
+#         "legMovement": 47.27272727272727,
+#         "weightBalancedOnBothLegs": 0.0,
+#         "eyeContact": 100.0,
+#         "voiceGraphBase64": "iVBORw0KGgoAAAANSUhEUgAADhAA"
+#     }
+# ]
 
 
-insert=(data['data'], data["data"])
-print(insert)
+# insert=(data['data'], data["data"])
+# print(insert)
+import requests
+def get_details(id):
+    # base_url = f"http://192.168.29.223:8080/api/proCommunication/getdetails/{id}"
+    base_url="http://192.168.29.223:8080/api/proCommunication/getdetails/1"
+    try:
+        response = requests.get(base_url)
+        response.raise_for_status()  # Raises an HTTPError for bad responses
+        return response.json()  # Assuming the API returns JSON
+    except requests.RequestException as e:
+        print(f"An error occurred: {e}")
+        return None
+data=get_details(1)
+print(data)
