@@ -1,3 +1,5 @@
+
+
 import cv2
 import numpy as np
 from deepface import DeepFace
@@ -97,6 +99,7 @@ class GestureAnalyzer:
     def get_results(self):
         total_frames = self.frame_count
         emotion_percentages = {emotion: count / total_frames * 100 for emotion, count in self.emotion_counts.items()}
+        # print('emotion_percentages',emotion_percentages)
         emotion_avg_confidences = {emotion: np.mean(confidences) if confidences else 0 for emotion, confidences in self.emotion_confidences.items()}
         eye_contact_percentage = self.eye_contact_count / total_frames * 100
 
@@ -111,19 +114,19 @@ class GestureAnalyzer:
         weight_balanced_percentage = self.weight_balanced_count / total_frames * 100
 
         fixed_keys = ["happy", "neutral", "surprise", "angry", "fear", "disgust", "sad"]
-        emotion_percentage_data = {emotion: f"{emotion_percentages.get(emotion, 0.0):.2f}%" for emotion in fixed_keys}
-
+        emotion_percentage_data = {emotion: emotion_percentages.get(emotion, 0.0) for emotion in fixed_keys}
+        
         additional_data = {
-            "Average Face Detection Confidence": f"{avg_face_confidence:.2f}%",
-            "Looking Straight": f"{looking_straight_percentage:.2f}%",
-            "Smile Count": f"{smile_percentage:.2f}%",
-            "Hand Usage": f"{hand_usage_percentage:.2f}%",
-            "Arms Crossed": f"{arms_crossed_percentage:.2f}%",
-            "Wrists Closed": f"{wrists_closed_percentage:.2f}%",
-            "Weight on One Leg": f"{weight_on_one_leg_percentage:.2f}%",
-            "Leg Movement": f"{leg_movement_percentage:.2f}%",
-            "Weight Balanced on Both Legs": f"{weight_balanced_percentage:.2f}%",
-            "Eye Contact Percentage":f"{eye_contact_percentage:.2f}%"
+            "faceConfidence":  float(f"{avg_face_confidence:.2f}"),
+            "lookingStraight":  float(f"{looking_straight_percentage:.2f}"),
+            "smileCount":  float(f"{smile_percentage:.2f}"),
+            "handUsage":float(f"{hand_usage_percentage :.2f}"),
+            "armsCrossed": float(f"{arms_crossed_percentage:.2f}"),
+            "wristsClosed":  float(f"{wrists_closed_percentage:.2f}"),
+            "weightOnOneLeg": float(f"{weight_on_one_leg_percentage:.2f}"),
+            "legMovement":  float(f"{leg_movement_percentage:.2f}"),
+            "weightBalancedOnBothLegs":  float(f"{weight_balanced_percentage:.2f}"),
+            "eyeContact":float(f"{eye_contact_percentage:.2f}")
      
         }
 
