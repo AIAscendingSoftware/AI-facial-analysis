@@ -1,6 +1,4 @@
 
-
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import threading, os
@@ -58,7 +56,7 @@ def receive_data():
 
 if __name__ == '__main__':
     app.run(host='192.168.29.216', port=5000, debug=True)
-
+#server host='136.185.19.60'port='5006', 
 
 
 

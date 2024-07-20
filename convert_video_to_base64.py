@@ -24,9 +24,6 @@ def base64_to_video(base64_string, output_path):
     except Exception as e:
         return f"Error decoding Base64 and saving video: {e}"
 
-
-
-
 def converting_image_base64_into_image(base64_string):
     
     # Decode the base64 string

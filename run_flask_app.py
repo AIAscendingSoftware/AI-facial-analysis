@@ -8,7 +8,7 @@ python_executable = sys.executable
 while True:
     print("Starting Flask app...")
     process = subprocess.Popen([python_executable, r"E:\AI Ascending Software\AS AI Projects\AI facial analysis\AI-facial-analysis copy\app.py"])
-
+    
     try:
         process.wait()
     except KeyboardInterrupt:

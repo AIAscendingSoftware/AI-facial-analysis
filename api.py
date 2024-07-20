@@ -20,7 +20,6 @@ def post_data(data):
         print(response.text) 
         return f'POST request failed with status code: {response.status_code}'
 
-
 def get_details(id, max_retries=3, backoff_factor=0.3, timeout=10):
     base_url = f"http://192.168.29.223:8080/api/proCommunication/getdetails/{id}"
     

@@ -41,7 +41,6 @@ def insert_video_details(data):
             conn.close()
             print("MySQL connection is closed for insert_video_details")
 
-
 def insert_video_scores(data):
     conn = None
     cursor = None
