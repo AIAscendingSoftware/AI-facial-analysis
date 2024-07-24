@@ -5,7 +5,7 @@ from getting_gestures_score import GestureAnalyzer
 from video_to_audio_analyse import SpeechAnalyzer
 from convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
 from api import get_details,post_final_data
-import os,json
+import os,json,time
 from handling_db import insert_video_scores
 
 
@@ -33,6 +33,7 @@ def find_average(combined_dict):
     return average_dict
 
 def main(video_path, videoI_userId):
+    start_time = time.time()
     # vedio_details={"userId":data['userId'],"videoId":data['videoId'] } #we can add if java backend need any data
     vedio_details=videoI_userId
     # print(vedio_details)
@@ -50,6 +51,7 @@ def main(video_path, videoI_userId):
 
     # Speech Analysis
     speech_analyzer = SpeechAnalyzer(video_path)
+    print("you are in speech_analyzer and going to get speech_scores ")
     speech_scores = speech_analyzer.analyze(transcribed_text)
     print('speech_scores:',speech_scores, type(speech_scores))
     
@@ -66,18 +68,26 @@ def main(video_path, videoI_userId):
     combined_dict={**combined_dict, **wanted_data }
     
     # print(combined_dict, len(combined_dict), type(combined_dict))
-    insert_data_on_insert_video_scores=(combined_dict['angry'], combined_dict['armsCrossed'], combined_dict['bodyLanguageScore'], combined_dict['communicationScore'], combined_dict['disgust'], combined_dict['eyeContact'], combined_dict['faceConfidence'], combined_dict['fcialScore'], combined_dict['fear'], combined_dict['fluency'], combined_dict['grammar'], combined_dict['handUsage'], combined_dict['happy'], combined_dict['legMovement'], combined_dict['lookingStraight'], combined_dict['neutral'], combined_dict['overAllScroe'], combined_dict['pronunciation'], combined_dict['sad'], combined_dict['smileCount'], combined_dict['speechRate'], combined_dict['speechScore'], combined_dict['surprise'], combined_dict['tone'], combined_dict['userId'], combined_dict['videoId'], combined_dict['voiceConfidence'], combined_dict['voiceGraphBase64'], combined_dict['weightBalancedOnBothLegs'], combined_dict['weightOnOneLeg'], combined_dict['wristsClosed'])
+    # insert_data_on_insert_video_scores=(combined_dict['angry'], combined_dict['armsCrossed'], combined_dict['bodyLanguageScore'], combined_dict['communicationScore'], combined_dict['disgust'], combined_dict['eyeContact'], combined_dict['faceConfidence'], combined_dict['fcialScore'], combined_dict['fear'], combined_dict['fluency'], combined_dict['grammar'], combined_dict['handUsage'], combined_dict['happy'], combined_dict['legMovement'], combined_dict['lookingStraight'], combined_dict['neutral'], combined_dict['overAllScroe'], combined_dict['pronunciation'], combined_dict['sad'], combined_dict['smileCount'], combined_dict['speechRate'], combined_dict['speechScore'], combined_dict['surprise'], combined_dict['tone'], combined_dict['userId'], combined_dict['videoId'], combined_dict['voiceConfidence'], combined_dict['voiceGraphBase64'], combined_dict['weightBalancedOnBothLegs'], combined_dict['weightOnOneLeg'], combined_dict['wristsClosed'])
   
-    insert_video_scores_=insert_video_scores(insert_data_on_insert_video_scores)
-    print(insert_video_scores_)
-    print('userI for get_details api:',combined_dict['userId'], type(combined_dict['userId']))
-    result = get_details(combined_dict['userId'])
-    print(result, type(result), len(result), 'final result data')
+    # insert_video_scores_=insert_video_scores(insert_data_on_insert_video_scores)
+    # print(insert_video_scores_)
+    print(combined_dict,'userI for get_details api:',combined_dict['userId'], type(combined_dict['userId']))
+    end_time = time.time()
+    # result = get_details(combined_dict['userId'])
+    # print(result, type(result), len(result), 'final result data')
 
     # final_out=json.dumps(result(combined_dict), indent=4)
     # print(final_out, len(final_out), type(final_out), 'final ou data')
-    final_out = find_average(result)
+    # final_out = find_average(result)
 
     #to post final score
-    post_final_data(final_out)
+    # post_final_data(final_out)
 
+    # Calculate the time taken in seconds
+    time_taken = end_time - start_time
+    
+    # Convert seconds to minutes
+    time_taken_minutes = time_taken / 60
+    
+    print(f"Time taken: {time_taken_minutes:.2f} minutes, start tiume: {start_time}, end time:{end_time}")

@@ -38,14 +38,20 @@ def transcribe_audio(audio_path):
 
 class SpeechAnalyzer:
     def __init__(self, video_path):
+        # print('you are in SpeechAnalyzer initilalizer')
         self.video_path = video_path
+        print('self.video_path:',self.video_path)
+        # print('you are in SpeechAnalyzer initilalizer')#prited
         self.nlp = spacy.load("en_core_web_sm")
+        print('self.nlp:',self.nlp)
+        # print('you are in SpeechAnalyzer initilalizer')
         self.max_grammar_mistakes = 10
         self.max_tone = 300
         self.max_confidence = 0.1
         self.voice = None
         self.sp = None
         self.speech_rate = 0
+        print('you are in SpeechAnalyzer initilalizer')
 
     def extract_audio(self):
         with mp.VideoFileClip(self.video_path) as video:

@@ -1,7 +1,7 @@
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import threading, os
+import threading, os, time
 from main_ import main
 from convert_video_to_base64 import base64_to_video
 from handling_db import insert_video_details
@@ -26,21 +26,23 @@ def make_video_path(base64_string, videoI_userId):
         print("Error decoding video to Base64.")
 
 @app.route('/post_video', methods=['POST'])
+
 def receive_data():
+
     try:
         print('request data:', request)
         data = request.get_json()
         # print(data,'data from vijay')
         print("------------------------")
-        base64_string_ = data['baseUrl']
-        base64_string = base64_string_.split(',', 1)[1]
+        base64_string = data['baseUrl']
+        # base64_string = base64_string.split(',', 1)[1]
 
         # Insert video details and get videoId
-        video_data = (base64_string, data['size'], data['lastModifiedDate'], data['userId'], data['videoCategory'], data['name'], data['type'])
-        insert_video_and_get_id = insert_video_details(video_data)
-        print(insert_video_and_get_id)
-        videoId = insert_video_and_get_id['id']
-        # videoId=1
+        # video_data = (base64_string, data['size'], data['lastModifiedDate'], data['userId'], data['videoCategory'], data['name'], data['type'])
+        # insert_video_and_get_id = insert_video_details(video_data)
+        # print(insert_video_and_get_id)
+        # videoId = insert_video_and_get_id['id']
+        videoId=1
         videoI_userId = {"userId": data['userId'], "videoId": videoId}
 
         # Process the video
@@ -55,7 +57,7 @@ def receive_data():
         return response
 
 if __name__ == '__main__':
-    app.run(host='192.168.29.216', port=5000, debug=True)
+    app.run(host='192.168.29.125', port=5000, debug=True)
 #server host='136.185.19.60'port='5006', 
 
 
