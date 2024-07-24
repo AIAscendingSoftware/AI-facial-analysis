@@ -1,8 +1,8 @@
 from convert_video_to_base64 import video_to_base64, base64_to_video
 import requests
 
-video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\3s 2mb.mp4" #Time taken: 0.33 minutes
-# video_path = r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\1m 3mb.mp4" #Time taken: 4.00 minutes
+video_path=r"C:\Users\prani\OneDrive\Pictures\Camera Roll\WIN_20240716_12_38_55_Pro.mp4" #grafhic card Time taken: 0.33 minutes, local cpu Time taken: 0.77 minutes
+# video_path = r"E:\AI Ascending Software\AS AI Projects\videos for AI facial anlysis\1m 3mb.mp4" #grafhic cardTime taken: 4.00 minutes,local cpu Time taken: 6.72 minutes,
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\3m 8mb.mp4" #Time taken: 9.27 minutes
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\5m 10mb.mp4" #Time taken: 15.51 minutes
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\10m 20mb.mp4" #Time taken: 33.22 minutes
@@ -24,7 +24,7 @@ data = {
 }
 
 def post_data(data):
-    url = 'http://192.168.29.125:5000/post_video'
+    url = 'http://192.168.43.216:5000/post_video'
     
     response = requests.post(url, json=data)
     
