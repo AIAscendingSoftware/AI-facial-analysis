@@ -74,6 +74,8 @@ def main(video_path, videoI_userId):
     # print(insert_video_scores_)
     print(combined_dict,'userI for get_details api:',combined_dict['userId'], type(combined_dict['userId']))
     end_time = time.time()
+
+
     # result = get_details(combined_dict['userId'])
     # print(result, type(result), len(result), 'final result data')
 

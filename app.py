@@ -5,6 +5,7 @@ import threading, os, time
 from main_ import main
 from convert_video_to_base64 import base64_to_video
 from handling_db import insert_video_details
+from kinds import restart_app
 
 app = Flask(__name__)
 CORS(app, resources={r"/post_video": {"origins": "*"}})
@@ -50,14 +51,16 @@ def receive_data():
 
         # Prepare and send the response
         response = jsonify({'message': 'Data processed successfully', "videoId": videoId})
+
         return response, 200
 
     except Exception as e:
         response = jsonify({'message': 'Error processing request', 'error': str(e)})
-        return response
 
+        return response
+    
 if __name__ == '__main__':
-    app.run(host='192.168.29.125', port=5000, debug=True)
+    app.run(host='192.168.43.216', port=5000, debug=True)
 #server host='136.185.19.60'port='5006', 
 
 
