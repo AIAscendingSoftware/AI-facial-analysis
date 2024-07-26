@@ -11,6 +11,7 @@ class VideoToText:
         self.video_path = video_path
 
     def extract_audio(self):
+        print('you are in method extract_audio')
         if not os.path.exists(self.video_path):
             raise FileNotFoundError(f"The file {self.video_path} does not exist!")
 
@@ -22,6 +23,7 @@ class VideoToText:
         audio_segment = AudioSegment.from_wav("temp_audio.wav")
         audio_segment.export(audio_buffer, format="wav")
         audio_buffer.seek(0)
+        print('the audio is there')
         os.remove("temp_audio.wav")
         return audio_buffer
 

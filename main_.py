@@ -4,7 +4,7 @@ from video_to_text import VideoToText
 from getting_gestures_score import GestureAnalyzer
 from video_to_audio_analyse import SpeechAnalyzer
 from convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
-from api import get_details,post_final_data
+from api import get_details,post_final_data, post_one_video_result
 import os,json,time
 from handling_db import insert_video_scores
 
@@ -33,13 +33,16 @@ def find_average(combined_dict):
     return average_dict
 
 def main(video_path, videoI_userId):
+    print('you are in main with:',video_path, videoI_userId)
     start_time = time.time()
     # vedio_details={"userId":data['userId'],"videoId":data['videoId'] } #we can add if java backend need any data
     vedio_details=videoI_userId
     # print(vedio_details)
     # Video to Text
     video_to_text = VideoToText(video_path)
+    print('you are in VideoToText initializer and going to get_transcribed_text ')
     transcribed_text = video_to_text.get_transcribed_text()
+
     print("Transcribed Text:", transcribed_text)
 
     # Gesture Analysis
@@ -58,34 +61,74 @@ def main(video_path, videoI_userId):
     
     combined_dict = {**gesture_results, **speech_scores, **vedio_details}
 
-    fcialScore=(combined_dict['happy']+combined_dict['neutral']+combined_dict['surprise']+combined_dict['angry']+combined_dict['fear']+combined_dict['disgust']+combined_dict['sad']+combined_dict['faceConfidence'])/8
+    fcialScore=(combined_dict['happy']+combined_dict['nautral']+combined_dict['surprise']+combined_dict['angry']+combined_dict['fear']+combined_dict['disgust']+combined_dict['sad']+combined_dict['faceConfidence'])/8
     communicationScore=(combined_dict['fluency']*100 + combined_dict['grammar']*100 +combined_dict['pronunciation'])/3
     speechScore=(combined_dict['tone']*100 + combined_dict['voiceConfidence']*100)/2
     bodyLanguageScore=(combined_dict['lookingStraight']+combined_dict['smileCount']+combined_dict['handUsage']+combined_dict['armsCrossed']+combined_dict['wristsClosed']+combined_dict['weightOnOneLeg']+combined_dict['legMovement']+combined_dict['weightBalancedOnBothLegs']+combined_dict['eyeContact'])/9
     overAllScroe=(fcialScore+communicationScore+speechScore+bodyLanguageScore)/4
-    wanted_data={"overAllScroe": float(f"{overAllScroe:.2f}"), "fcialScore": float(f"{fcialScore:.2f}"),"communicationScore": float(f"{communicationScore:.2f}"),"bodyLanguageScore": float(f"{bodyLanguageScore:.2f}"), "speechScore": float(f"{speechScore:.2f}")}
-    
-    combined_dict={**combined_dict, **wanted_data }
+
+    wanted_data={"oveAllScroe": float(f"{overAllScroe:.2f}"), "fcialScore": float(f"{fcialScore:.2f}"),"communicationScore": float(f"{communicationScore:.2f}"),"bodyLanguageScore": float(f"{bodyLanguageScore:.2f}"), "speechScore": float(f"{speechScore:.2f}")}
+    print('wanted_data:',wanted_data)   
     
     # print(combined_dict, len(combined_dict), type(combined_dict))
     # insert_data_on_insert_video_scores=(combined_dict['angry'], combined_dict['armsCrossed'], combined_dict['bodyLanguageScore'], combined_dict['communicationScore'], combined_dict['disgust'], combined_dict['eyeContact'], combined_dict['faceConfidence'], combined_dict['fcialScore'], combined_dict['fear'], combined_dict['fluency'], combined_dict['grammar'], combined_dict['handUsage'], combined_dict['happy'], combined_dict['legMovement'], combined_dict['lookingStraight'], combined_dict['neutral'], combined_dict['overAllScroe'], combined_dict['pronunciation'], combined_dict['sad'], combined_dict['smileCount'], combined_dict['speechRate'], combined_dict['speechScore'], combined_dict['surprise'], combined_dict['tone'], combined_dict['userId'], combined_dict['videoId'], combined_dict['voiceConfidence'], combined_dict['voiceGraphBase64'], combined_dict['weightBalancedOnBothLegs'], combined_dict['weightOnOneLeg'], combined_dict['wristsClosed'])
   
     # insert_video_scores_=insert_video_scores(insert_data_on_insert_video_scores)
     # print(insert_video_scores_)
-    print(combined_dict,'userI for get_details api:',combined_dict['userId'], type(combined_dict['userId']))
-    end_time = time.time()
+    # print(combined_dict,'userI for get_details api:',combined_dict['userId'], type(combined_dict['userId']))
+    one_video_data={
+    "userId": vedio_details["userId"],
+    "videoId":vedio_details["videoId"],
+    "overAllScroe": wanted_data["oveAllScroe"],
+    "fcialScore": wanted_data["fcialScore"],
+    "happy": combined_dict['happy'],
+    "nautral": combined_dict["nautral"],
+    "surprise": combined_dict['surprise'],
+    "angry": combined_dict['angry'],
+    "disgust": combined_dict['disgust'],
+    "fear": combined_dict['fear'],
+    "sad": combined_dict['sad'],
+    "faceConfidence": combined_dict["faceConfidence"],
+    "communicationScore": wanted_data["communicationScore"],
+    "grammar": combined_dict["grammar"],
+    "fluency": combined_dict["fluency"],
+    "pronunciation": combined_dict["pronunciation"],
+    "speechScore": wanted_data["speechScore"],
+    "tone": combined_dict["tone"],
+    "voiceConfidence": combined_dict["voiceConfidence"],
+    "speechRate": combined_dict["speechRate"],
+    "bodyLanguageScore": wanted_data["bodyLanguageScore"],
+    "lookingStraight": combined_dict["lookingStraight"],
+    "smileCount": combined_dict["smileCount"],
+    "handUsage": combined_dict["handUsage"],
+    "armsCrossed": combined_dict["armsCrossed"],
+    "wristsClosed": combined_dict["wristsClosed"],
+    "weightOnOneLeg": combined_dict["weightOnOneLeg"],
+    "legMovement": combined_dict["legMovement"],
+    "weightBalancedOnBothLegs": combined_dict["weightBalancedOnBothLegs"],
+    "eyeContact": combined_dict["eyeContact"],
+    "voiceGraphBase64": combined_dict["voiceGraphBase64"]
+    }
+    
+    print("one_video_data:",one_video_data, type(one_video_data), len(one_video_data))
+    post_video_result=post_one_video_result(one_video_data)
+    print('post_video_result:',post_video_result)
 
 
-    # result = get_details(combined_dict['userId'])
-    # print(result, type(result), len(result), 'final result data')
+
+
+    # print(vedio_details['userId'], type(vedio_details['userId']))
+    result = get_details(vedio_details['userId'])
+    print(result, type(result), len(result), 'final result data')
 
     # final_out=json.dumps(result(combined_dict), indent=4)
     # print(final_out, len(final_out), type(final_out), 'final ou data')
-    # final_out = find_average(result)
-
+    final_out = find_average(result)
+    print('final_out:',final_out)
     #to post final score
-    # post_final_data(final_out)
+    post_final_data(final_out)
 
+    end_time = time.time()
     # Calculate the time taken in seconds
     time_taken = end_time - start_time
     
