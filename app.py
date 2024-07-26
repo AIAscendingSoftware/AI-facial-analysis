@@ -15,7 +15,7 @@ def make_video_path(base64_string, videoI_userId):
     print('videoId:',videoI_userId)
     output_path = "temporary_video.mp4"
     decoded_video_path = base64_to_video(base64_string, output_path)
-    
+    # print(decoded_video_path)
     if decoded_video_path:
         main(decoded_video_path,  videoI_userId)
         if os.path.exists(decoded_video_path):
@@ -33,9 +33,10 @@ def receive_data():
     try:
         print('request data:', request)
         data = request.get_json()
-        # print(data,'data from vijay')
+        # print(data,'data from vicky')
         print("------------------------")
         base64_string = data['baseUrl']
+        # print()
         # base64_string = base64_string.split(',', 1)[1]
 
         # Insert video details and get videoId
@@ -43,14 +44,15 @@ def receive_data():
         # insert_video_and_get_id = insert_video_details(video_data)
         # print(insert_video_and_get_id)
         # videoId = insert_video_and_get_id['id']
-        videoId=1
-        videoI_userId = {"userId": data['userId'], "videoId": videoId}
+        # videoId=1
+        # videoI_userId = {"userId": data['userId'], 'videoId': videoId} 
+        videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
 
         # Process the video
         make_video_path(base64_string, videoI_userId)
 
         # Prepare and send the response
-        response = jsonify({'message': 'Data processed successfully', "videoId": videoId})
+        response = jsonify({'message': 'Data processed and stored successfully'})
 
         return response, 200
 
@@ -60,7 +62,7 @@ def receive_data():
         return response
     
 if __name__ == '__main__':
-    app.run(host='192.168.43.216', port=5000, debug=True)
+    app.run(host='192.168.29.216', port=5000, debug=True)
 #server host='136.185.19.60'port='5006', 
 
 

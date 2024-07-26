@@ -113,7 +113,7 @@ class GestureAnalyzer:
         leg_movement_percentage = self.leg_movement_count / total_frames * 100
         weight_balanced_percentage = self.weight_balanced_count / total_frames * 100
 
-        fixed_keys = ["happy", "neutral", "surprise", "angry", "fear", "disgust", "sad"]
+        fixed_keys = ["happy", "nautral", "surprise", "angry", "fear", "disgust", "sad"]
         emotion_percentage_data = {emotion: emotion_percentages.get(emotion, 0.0) for emotion in fixed_keys}
         
         additional_data = {
