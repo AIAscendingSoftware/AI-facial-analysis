@@ -79,42 +79,40 @@ def main(video_path, videoI_userId):
     one_video_data={
     "userId": vedio_details["userId"],
     "videoId":vedio_details["videoId"],
-    "overAllScroe": wanted_data["oveAllScroe"],
-    "fcialScore": wanted_data["fcialScore"],
-    "happy": combined_dict['happy'],
-    "nautral": combined_dict["nautral"],
-    "surprise": combined_dict['surprise'],
-    "angry": combined_dict['angry'],
-    "disgust": combined_dict['disgust'],
-    "fear": combined_dict['fear'],
-    "sad": combined_dict['sad'],
-    "faceConfidence": combined_dict["faceConfidence"],
-    "communicationScore": wanted_data["communicationScore"],
-    "grammar": combined_dict["grammar"],
-    "fluency": combined_dict["fluency"],
-    "pronunciation": combined_dict["pronunciation"],
-    "speechScore": wanted_data["speechScore"],
-    "tone": combined_dict["tone"],
-    "voiceConfidence": combined_dict["voiceConfidence"],
-    "speechRate": combined_dict["speechRate"],
-    "bodyLanguageScore": wanted_data["bodyLanguageScore"],
-    "lookingStraight": combined_dict["lookingStraight"],
-    "smileCount": combined_dict["smileCount"],
-    "handUsage": combined_dict["handUsage"],
-    "armsCrossed": combined_dict["armsCrossed"],
-    "wristsClosed": combined_dict["wristsClosed"],
-    "weightOnOneLeg": combined_dict["weightOnOneLeg"],
-    "legMovement": combined_dict["legMovement"],
-    "weightBalancedOnBothLegs": combined_dict["weightBalancedOnBothLegs"],
-    "eyeContact": combined_dict["eyeContact"],
+    "overAllScroe": round(wanted_data["oveAllScroe"],2),
+    "fcialScore": round(wanted_data["fcialScore"],2),
+    "happy": round(combined_dict['happy'],2),
+    "nautral": round(combined_dict["nautral"],2),
+    "surprise": round(combined_dict['surprise'],2),
+    "angry": round(combined_dict['angry'],2),
+    "disgust": round(combined_dict['disgust'],2),
+    "fear": round(combined_dict['fear'],2),
+    "sad": round(combined_dict['sad'],2),
+    "faceConfidence": round(combined_dict["faceConfidence"],2),
+    "communicationScore": round(wanted_data["communicationScore"],2),
+    "grammar": round(combined_dict["grammar"],2),
+    "fluency": round(combined_dict["fluency"],2),
+    "pronunciation": round(combined_dict["pronunciation"],2),
+    "speechScore": round(wanted_data["speechScore"],2),
+    "tone": round(combined_dict["tone"],2),
+    "voiceConfidence": round(combined_dict["voiceConfidence"],2),
+    "speechRate": round(combined_dict["speechRate"],2),
+    "bodyLanguageScore": round(wanted_data["bodyLanguageScore"],2),
+    "lookingStraight": round(combined_dict["lookingStraight"],2),
+    "smileCount": round(combined_dict["smileCount"],2),
+    "handUsage": round(combined_dict["handUsage"],2),
+    "armsCrossed": round(combined_dict["armsCrossed"],2),
+    "wristsClosed": round(combined_dict["wristsClosed"],2),
+    "weightOnOneLeg": round(combined_dict["weightOnOneLeg"],2),
+    "legMovement": round(combined_dict["legMovement"],2),
+    "weightBalancedOnBothLegs": round(combined_dict["weightBalancedOnBothLegs"],2),
+    "eyeContact": round(combined_dict["eyeContact"],2),
     "voiceGraphBase64": combined_dict["voiceGraphBase64"]
     }
     
     print("one_video_data:",one_video_data, type(one_video_data), len(one_video_data))
     post_video_result=post_one_video_result(one_video_data)
     print('post_video_result:',post_video_result)
-
-
 
 
     # print(vedio_details['userId'], type(vedio_details['userId']))
@@ -129,10 +127,10 @@ def main(video_path, videoI_userId):
     post_final_data(final_out)
 
     end_time = time.time()
-    # Calculate the time taken in seconds
+    # # Calculate the time taken in seconds
     time_taken = end_time - start_time
     
-    # Convert seconds to minutes
+    # # Convert seconds to minutes
     time_taken_minutes = time_taken / 60
     
     print(f"Time taken: {time_taken_minutes:.2f} minutes, start tiume: {start_time}, end time:{end_time}")
