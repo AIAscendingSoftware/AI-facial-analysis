@@ -5,8 +5,8 @@ from flask_cors import CORS
 import threading, os, time, sys
 from main_ import main
 from convert_video_to_base64 import base64_to_video
-from handling_db import insert_video_details
-from kinds import restart_app
+
+
 # Initialize the process_complete event
 process_complete = threading.Event()
 app = Flask(__name__)

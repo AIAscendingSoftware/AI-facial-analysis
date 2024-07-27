@@ -6,7 +6,7 @@ from video_to_audio_analyse import SpeechAnalyzer
 from convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
 from api import get_details,post_final_data, post_one_video_result
 import os,json,time
-from handling_db import insert_video_scores
+
 
 
 
@@ -111,20 +111,20 @@ def main(video_path, videoI_userId):
     }
     
     print("one_video_data:",one_video_data, type(one_video_data), len(one_video_data))
-    post_video_result=post_one_video_result(one_video_data)
-    print('post_video_result:',post_video_result)
+    # post_video_result=post_one_video_result(one_video_data)
+    # print('post_video_result:',post_video_result)
 
 
-    # print(vedio_details['userId'], type(vedio_details['userId']))
-    result = get_details(vedio_details['userId'])
-    print(result, type(result), len(result), 'final result data')
+    # # print(vedio_details['userId'], type(vedio_details['userId']))
+    # result = get_details(vedio_details['userId'])
+    # print(result, type(result), len(result), 'final result data')
 
-    # final_out=json.dumps(result(combined_dict), indent=4)
-    # print(final_out, len(final_out), type(final_out), 'final ou data')
-    final_out = find_average(result)
-    print('final_out:',final_out)
-    #to post final score
-    post_final_data(final_out)
+    # # final_out=json.dumps(result(combined_dict), indent=4)
+    # # print(final_out, len(final_out), type(final_out), 'final ou data')
+    # final_out = find_average(result)
+    # print('final_out:',final_out)
+    # #to post final score
+    # post_final_data(final_out)
 
     end_time = time.time()
     # # Calculate the time taken in seconds
