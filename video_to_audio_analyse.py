@@ -174,8 +174,8 @@ class SpeechAnalyzer:
                 "tone":  float(f"{(float(tone) / self.max_tone):.2f}"),
                 "voiceConfidence": float(f"{(float(confidence) / self.max_confidence):.2f}"),
                 "speechRate":  float(f"{(self.speech_rate):.2f}"),
-                "voiceGraphBase64": "voice_graph_base64", #dummy baseurl
-                # "voiceGraphBase64": voice_graph_base64, #real baseurl
+                # "voiceGraphBase64": "voice_graph_base64", #dummy baseurl
+                "voiceGraphBase64": voice_graph_base64, #real baseurl
                 "pronunciation":float(f"{pronunciation_score:.2f}")
             }
             # print('speech and communication data:',scores, type(scores['fluency']),scores['fluency']+100 )

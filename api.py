@@ -6,7 +6,7 @@ import time
 
 
 def get_details(id, max_retries=3, backoff_factor=0.3, timeout=10):
-    base_url = f"http://192.168.29.223:8080/api/proCommunication/getdetails/{id}"
+    base_url = f"http://192.168.29.223:8080/api/proCommunication/details/getAlldetails/{id}"
     
     # Create a session object
     session = requests.Session()
@@ -50,10 +50,11 @@ def get_details(id, max_retries=3, backoff_factor=0.3, timeout=10):
 #         return "POST post_one_video_result failed","Status code:", response.status_code, "Response:", response.text
 def post_one_video_result(data, max_retries=3, backoff_factor=0.3, timeout=10):
     print('post_one_video_result:', data)
-    url = "http://192.168.29.223:8080/api/proCommunication/postDetails"
+    url = "http://192.168.29.223:8080/api/proCommunication/details/postDetails"
     
     # Create a session object
     session = requests.Session()
+
     
     # Configure retry strategy
     retries = Retry(total=max_retries,
@@ -83,7 +84,7 @@ def post_one_video_result(data, max_retries=3, backoff_factor=0.3, timeout=10):
         session.close()
 
 def post_final_data(data, max_retries=3, backoff_factor=0.3, timeout=10):
-    url = "http://192.168.29.223:8080/api/proCommunication/postAllDetailsScore"
+    url = "http://192.168.29.223:8080/api/proCommunication/overAllDetails/post"
     
     # Create a session object
     session = requests.Session()
