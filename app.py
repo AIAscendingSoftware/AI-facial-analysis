@@ -20,20 +20,14 @@ def make_video_path(base64_string, videoI_userId):
     decoded_video_path = base64_to_video(base64_string, output_path)
     if decoded_video_path:
         result=main(decoded_video_path, videoI_userId)
-        if os.path.exists(decoded_video_path):
-            os.remove(decoded_video_path)
-            print(f"Removed temporary video file: {decoded_video_path}")
-        else:
-            print(f"Temporary video file not found: {decoded_video_path}")
-        process_complete.set()  # Signal that the process is complete
-    else:
-        print("Error decoding video to Base64.")
-        process_complete.set()  # Signal that the process is complete even on failure
+
+    process_complete.set() #Signal that the process is complete
 
     print("Process complete. Signaling for restart...")
     with open("restart.txt", "w") as f:
         f.write("restart")
-    return "hi Jack, I'm here...",result
+    print(result, type(result))
+    return result
 @app.route('/post_video', methods=['POST'])
 def receive_data():
     try:
@@ -58,7 +52,7 @@ def receive_data():
 
         # Get the result
         result = q.get()
-        print('result:',result)
+        # print('result:',result, type(result))
         thread.join()
         # Wait for the process to complete
         process_complete.wait()
