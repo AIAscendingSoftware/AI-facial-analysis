@@ -15,17 +15,26 @@ class VideoToText:
         if not os.path.exists(self.video_path):
             raise FileNotFoundError(f"The file {self.video_path} does not exist!")
 
-        video = mp.VideoFileClip(self.video_path)
-        audio = video.audio
+        video = mp.VideoFileClip(self.video_path) #print('video:', video), video: <moviepy.video.io.VideoFileClip.VideoFileClip object at 0x000001A43F5BE870>
+        audio = video.audio #print('audio:', audio), audio: <moviepy.audio.io.AudioFileClip.AudioFileClip object at 0x000001A43F448CE0
 
-        audio_buffer = BytesIO()
-        audio.write_audiofile("temp_audio.wav", codec='pcm_s16le', write_logfile=False)
-        audio_segment = AudioSegment.from_wav("temp_audio.wav")
-        audio_segment.export(audio_buffer, format="wav")
-        audio_buffer.seek(0)
-        print('the audio is there')
-        os.remove("temp_audio.wav")
-        return audio_buffer
+        if audio is None:
+            print('There is no audio in the video.')
+            return None
+        try:
+            audio_buffer = BytesIO() #print('audio_buffer:', audio_buffer), audio_buffer: <_io.BytesIO object at 0x000001A42F7BE3E0>
+            audio.write_audiofile("temp_audio.wav", codec='pcm_s16le', write_logfile=False) #print('audio:', audio), audio: <moviepy.audio.io.AudioFileClip.AudioFileClip object at 0x000001A43F448CE0>
+            audio_segment = AudioSegment.from_wav("temp_audio.wav") #print('audio_segment:', audio_segment), audio_segment: <pydub.audio_segment.AudioSegment object at 0x000001A43F5BDA00
+            audio_segment.export(audio_buffer, format="wav") #print('audio_segment:', audio_segment), audio_segment: <pydub.audio_segment.AudioSegment object at 0x000001A43F5BDA00>
+            audio_buffer.seek(0) #print('audio_buffer:', audio_buffer), audio_buffer: <_io.BytesIO object at 0x000001A42F7BE3E0
+            print('The audio is there, we are processng...',)
+            os.remove("temp_audio.wav")
+            return audio_buffer
+        except Exception as e:
+            print(f'An error occurred while processing the audio: {e}')
+            return None
+
+    
 
     def transcribe_audio(self, audio_buffer):
         recognizer = sr.Recognizer()
@@ -50,11 +59,25 @@ class VideoToText:
                     text = recognizer.recognize_google(audio_data)
                 except sr.UnknownValueError:
                     text = ""
-                full_text += f"{text} "
+                full_text += f"{text}"
 
         return full_text.strip()
 
+    # def get_transcribed_text(self):
+    #     audio_buffer = self.extract_audio()
+    #     if audio_buffer is not None:
+    #         transcribed_text = self.transcribe_audio(audio_buffer)
+    #     return transcribed_text
     def get_transcribed_text(self):
-        audio_buffer = self.extract_audio()
-        transcribed_text = self.transcribe_audio(audio_buffer)
-        return transcribed_text
+        try:
+            audio_buffer = self.extract_audio()
+            
+            if audio_buffer is not None:
+                transcribed_text = self.transcribe_audio(audio_buffer)
+                return transcribed_text
+            else:
+                print('No audio buffer available for transcription.')
+                return None
+        except Exception as e:
+            print(f'An error occurred while transcribing the audio: {e}')
+            return None
