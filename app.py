@@ -2,9 +2,10 @@
 'rerun app after completing process amd return the respones after completing process'
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import threading, os, time, sys
+import threading,queue, os, time, sys
 from main_ import main
 from convert_video_to_base64 import base64_to_video
+from concurrent.futures import ThreadPoolExecutor
 
 
 # Initialize the process_complete event
@@ -18,7 +19,7 @@ def make_video_path(base64_string, videoI_userId):
     output_path = "temporary_video.mp4"
     decoded_video_path = base64_to_video(base64_string, output_path)
     if decoded_video_path:
-        main(decoded_video_path, videoI_userId)
+        result=main(decoded_video_path, videoI_userId)
         if os.path.exists(decoded_video_path):
             os.remove(decoded_video_path)
             print(f"Removed temporary video file: {decoded_video_path}")
@@ -32,30 +33,43 @@ def make_video_path(base64_string, videoI_userId):
     print("Process complete. Signaling for restart...")
     with open("restart.txt", "w") as f:
         f.write("restart")
-
+    return "hi Jack, I'm here...",result
 @app.route('/post_video', methods=['POST'])
 def receive_data():
     try:
         # print('request data:', request)
         data = request.get_json()
-        print(data, 'data from vicky')
+        # print(data, 'data from vicky')
         base64_string = data['baseUrl']
         videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
         
         # Process the video in a separate thread
         process_complete.clear()
-        threading.Thread(target=make_video_path, args=(base64_string, videoI_userId)).start()
+        # threading.Thread(target=make_video_path, args=(base64_string, videoI_userId)).start() #
         
+        '''to get rerun data from main function'''
+        def threaded_function(q, base64_string, videoI_userId):
+            result = make_video_path(base64_string, videoI_userId)
+            q.put(result)
+
+        q = queue.Queue()
+        thread = threading.Thread(target=threaded_function, args=(q, base64_string, videoI_userId))
+        thread.start()
+
+        # Get the result
+        result = q.get()
+        print('result:',result)
+        thread.join()
         # Wait for the process to complete
         process_complete.wait()
         
         # Prepare and send the response after processing is complete
-        response = jsonify({'message': 'Data processing complete. '})
+        response = jsonify({'message': result})
         print('Restarting app...')
         return response, 200  # 200 OK
 
     except Exception as e:
-        response = jsonify({'message': 'Error processing request', 'error': str(e)})
+        response = jsonify({'message': 'Error processing request', 'error': str(e),'result':result})
         return response, 500
 
 def run_flask_app():
