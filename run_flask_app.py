@@ -6,7 +6,7 @@ import os
 
 # Use the Python executable from the currently activated environment
 python_executable = sys.executable
-app_path = r"E:\AI Ascending Software\AS AI Projects\AI facial analysis\AI-facial-analysis\app.py"
+app_path = r"D:\AI Projects\AI facial analysis\AI-facial-analysis\app.py"
 
 def run_app():
     print("Starting Flask app...")

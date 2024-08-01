@@ -67,7 +67,10 @@ def receive_data():
         return response, 500
 
 def run_flask_app():
-    app.run(host='192.168.29.216', port=5000, debug=False, use_reloader=False)
+    if __name__ == '__main__':
+        app.run(debug=True,host="192.168.29.125",port=5000) #server: app.run(debug=True,host="192.168.1.29")
+
+        # app.run(host='136.185.19.60', port=5006, debug=False, use_reloader=False)
 
 if __name__ == '__main__':
     run_flask_app()
