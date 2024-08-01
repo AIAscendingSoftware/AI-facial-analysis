@@ -11,11 +11,11 @@ def video_to_base64(video_path):
     return base64_string
 
 def base64_to_video(base64_string, output_path):
-    # print(base64_string,len(base64_string),type(base64_string))
+    # print(base64_string,len(base64_string),type(base64_string),'this is base64_string')
     try:
         # Decode the Base64 string back to bytes
         video_bytes = base64.b64decode(base64_string)
-
+        # print('video_bytes:',video_bytes,'thisd is video_bytes ')
         # Write the bytes to a video file
         with open(output_path, "wb") as video_file:
             video_file.write(video_bytes)
