@@ -115,7 +115,7 @@ class SpeechAnalyzer:
                 "pronunciation":float(f"{pronunciation_score:.2f}")
             }
             # print('speech and communication data:',scores, type(scores['fluency']),scores['fluency']+100 )
-            os.unlink(audio_output_path)
+            # os.unlink(audio_output_path) #to delete the audio using it's path
             return scores
         except Exception as e:
             print(f"Error during analysis: {e}")

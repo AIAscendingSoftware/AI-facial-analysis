@@ -47,7 +47,7 @@ def main(video_path, videoI_userId):
     video_to_audio_object = VideoToAudio(video_path, audio_output_path)
     result = video_to_audio_object.video_to_audio_ffmpeg()
     if result is None:
-        return "There was no audio to extract."
+        return "There is no audio to extract, so kindly check the whether the video has english audio or not."
     else:
         print(f"Audio file created at: {result}")
 
@@ -56,7 +56,7 @@ def main(video_path, videoI_userId):
     transcribed_text=audioToText_object.transcribe_audio()
     print("Transcribed Text:", transcribed_text)
     if transcribed_text is None: 
-        return 'There was no audio to extract.'
+        return "There is no audio to extract, so kindly check the whether the video has english audio or not."
 
     # # Gesture Analysis
     gesture_analyzer = GestureAnalyzer(video_path)
@@ -116,17 +116,17 @@ def main(video_path, videoI_userId):
     "voiceGraphBase64": combined_dict["voiceGraphBase64"]
     }
     print("one_video_data:",one_video_data, type(one_video_data), len(one_video_data))
-    # post_video_result=API_object.post_one_video_result(one_video_data)
-    # print('post_video_result:',post_video_result)
-    # # print(vedio_details['userId'], type(vedio_details['userId']))
-    # result = API_object.get_details(vedio_details['userId'])
-    # print(result, type(result), len(result), 'final result data')
-    # # final_out=json.dumps(result(combined_dict), indent=4)
-    # # print(final_out, len(final_out), type(final_out), 'final ou data')
-    # final_out = find_average(result)
-    # print('final_out:',final_out)
-    # #to post final score
-    # API_object.post_final_data(final_out)
+    post_video_result=API_object.post_one_video_result(one_video_data)
+    print('post_video_result:',post_video_result)
+    # print(vedio_details['userId'], type(vedio_details['userId']))
+    result = API_object.get_details(vedio_details['userId'])
+    print(result, type(result), len(result), 'final result data')
+    # final_out=json.dumps(result(combined_dict), indent=4)
+    # print(final_out, len(final_out), type(final_out), 'final ou data')
+    final_out = find_average(result)
+    print('final_out:',final_out)
+    #to post final score
+    API_object.post_final_data(final_out)
     end_time = time.time()
     # # Calculate the time taken in seconds
     time_taken = end_time - start_time
