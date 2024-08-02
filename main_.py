@@ -6,7 +6,7 @@ from video_to_audio_analyse import SpeechAnalyzer
 from convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
 from api import APIs
 import time
-from converting_video_to_audio import videoToAudio
+from converting_video_to_audio import VideoToAudio
 from audio_to_text import audioToText
 API_object=APIs()
 
@@ -44,15 +44,19 @@ def main(video_path, videoI_userId):
     
     #converting video to audio an save the audio
     audio_output_path="extracted_audio.wav"
-    videoToAudio_object=videoToAudio(video_path,audio_output_path)
-    videoToAudio_object.video_to_audio_ffmpeg()
-    
+    video_to_audio_object = VideoToAudio(video_path, audio_output_path)
+    result = video_to_audio_object.video_to_audio_ffmpeg()
+    if result is None:
+        return "There was no audio to extract."
+    else:
+        print(f"Audio file created at: {result}")
+
     #converting audio to text
     audioToText_object=audioToText(audio_output_path)
     transcribed_text=audioToText_object.transcribe_audio()
     print("Transcribed Text:", transcribed_text)
     if transcribed_text is None: 
-        return 'there is no human voice from VideoToText class'
+        return 'There was no audio to extract.'
 
     # # Gesture Analysis
     gesture_analyzer = GestureAnalyzer(video_path)

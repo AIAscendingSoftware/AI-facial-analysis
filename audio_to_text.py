@@ -19,7 +19,7 @@ class audioToText:
             keep_silence=500,
         )
         logging.info(f"Total chunks created: {len(chunks)}")
-        # print( chunks,'Total chunks created:', len(chunks))
+        print( chunks,'Total chunks created:', len(chunks))
     
     
         full_text = ""
@@ -30,10 +30,10 @@ class audioToText:
     
             with sr.AudioFile(chunk_buffer) as source:
                 audio_data = recognizer.record(source)
-                print(audio_data)
+                # print(audio_data)
                 try:
                     text = recognizer.recognize_google(audio_data)
-                    print(text)
+                    # print(text)
                 except sr.UnknownValueError:
                     text = ""
                 full_text += f"{text} "
