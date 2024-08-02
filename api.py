@@ -6,7 +6,7 @@ import time
 
 class APIs:
     def __init__(self):
-        self.half_url="http://192.168.29.223:8080/api/proCommunication" #server:192.168.1.29:8083
+        self.half_url="http://192.168.29.222:8086/api/proCommunication" #server:192.168.1.29:8083,, java local:192.168.29.222:8086
 
     def get_details(self,id, max_retries=3, backoff_factor=0.3, timeout=10):
         base_url = f"{self.half_url}/details/getAlldetails/{id}"
@@ -41,7 +41,7 @@ class APIs:
         finally:
             session.close()
 
-    def post_one_video_result(self,data, max_retries=3, backoff_factor=0.3, timeout=10):
+    def post_one_video_result(self,data, max_retries=3, backoff_factor=0.3, timeout=30):
 
         url = f"{self.half_url}/details/postDetails"
 

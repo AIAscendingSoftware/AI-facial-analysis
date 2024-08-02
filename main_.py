@@ -125,7 +125,7 @@ def main(video_path, videoI_userId):
     # print(final_out, len(final_out), type(final_out), 'final ou data')
     final_out = find_average(result)
     print('final_out:',final_out)
-    #to post final score
+    # to post final score
     API_object.post_final_data(final_out)
     end_time = time.time()
     # # Calculate the time taken in seconds
