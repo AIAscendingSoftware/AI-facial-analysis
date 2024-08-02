@@ -37,8 +37,11 @@ def make_video_path(base64_string, videoI_userId):
 def receive_data():
     data = request.get_json()
     try:
-        print(data, 'data from vicky')
-        video_base64 = data['baseUrl']
+        # print(data, 'data from vicky')
+        print(data["videoBytes"],'videoBytes')
+        video_base64=data["videoBytes"]
+        # video_base64 = data['baseUrl']
+        # print(data['baseUrl'],'baseUrl')
         videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
         
         # Process the video in a separate thread

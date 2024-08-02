@@ -53,7 +53,7 @@ class VideoToAudio:
         if not self.has_audio_stream():
             print("No audio stream found in the video.")
             return None
-        command = ['ffmpeg', '-i', self.video_path, '-q:a', '0', '-map', 'a', self.audio_output_path]
+        command = ['ffmpeg','-y', '-i', self.video_path, '-q:a', '0', '-map', 'a', self.audio_output_path]
         subprocess.run(command, check=True)
         print(f"Audio has been successfully extracted and saved to {self.audio_output_path}.")
         return self.audio_output_path
