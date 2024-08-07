@@ -1,3 +1,57 @@
+# from flask import Flask, request, jsonify
+# from flask_cors import CORS
+# import threading
+# from concurrent.futures import ThreadPoolExecutor
+# import os
+# from main_ import main
+# from convert_video_to_base64 import base64_to_video
+
+# app = Flask(__name__)
+# CORS(app, resources={r"/post_video": {"origins": "*"}})
+
+# # Create a ThreadPoolExecutor for handling concurrent requests
+# executor = ThreadPoolExecutor(max_workers=10)
+
+# def make_video_path(base64_string, videoI_userId):
+#     print('you are in make_video_path function')
+#     print('videoId:', videoI_userId)
+#     output_path = "temporary_video_{}.mp4".format(videoI_userId['videoId'])
+#     decoded_video_path = base64_to_video(base64_string, output_path)
+#     if decoded_video_path:
+#         result = main(decoded_video_path, videoI_userId)
+#     else:
+#         result = "Failed to decode video"
+#     return result
+
+# @app.route('/post_video', methods=['POST'])
+# def receive_data():
+#     data = request.get_json()
+#     try:
+#         video_base64 = data['baseUrl']  # for development and testing
+#         videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
+        
+#         # Submit the video processing task to the executor
+#         future = executor.submit(make_video_path, video_base64, videoI_userId)
+        
+#         # Wait for the task to complete and get the result
+#         result = future.result()
+        
+#         # Prepare and send the response after processing is complete
+#         response = jsonify({'message': result})
+#         return response, 200  # 200 OK
+
+#     except Exception as e:
+#         response = jsonify({'message': 'Error processing request', 'error': str(e)})
+#         return response, 500
+
+# def run_flask_app():
+#     if __name__ == '__main__':
+#         app.run(debug=True, host="192.168.29.125", port=5000)
+
+# if __name__ == '__main__':
+#     run_flask_app()
+
+
 
 'rerun app after completing process amd return the respones after completing process'
 from flask import Flask, request, jsonify
@@ -38,9 +92,9 @@ def receive_data():
     data = request.get_json()
     try:
         # print(data, 'data from vicky')
-        # print(data["videoBytes"],'videoBytes')
-        video_base64=data["videoBytes"]
-        # video_base64 = data['baseUrl']
+        # print(data["videoBytes"],'videoBytes') 
+        # video_base64=data["videoBytes"] #for production
+        video_base64 = data['baseUrl'] #for development and testing
         # print(data['baseUrl'],'baseUrl')
         videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
         
@@ -50,12 +104,6 @@ def receive_data():
         
         '''to get rerun data from main function'''
         def threaded_function(q, video_base64, videoI_userId):
-            #to analyze the video and audio
-            # analyzer = VideoAudioAnalysis(video_base64, data['id'], data['userId'])
-            # format_info = analyzer.get_video_format()
-            # print(format_info)
-        
-
             result = make_video_path(video_base64, videoI_userId)
             q.put(result)
 
