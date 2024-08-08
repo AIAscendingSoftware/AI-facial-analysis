@@ -33,11 +33,12 @@ class audioToText:
                 # print(audio_data)
                 try:
                     text = recognizer.recognize_google(audio_data)
-                    # print(text)
+
                 except sr.UnknownValueError:
                     text = ""
                 full_text += f"{text} "
         if len(full_text.strip()) ==0:
             return None
         else:
+            print('full_text.strip():', full_text.strip())
             return full_text.strip()
