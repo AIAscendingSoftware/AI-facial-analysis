@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 import threading
 import queue
-from app.main_ import main
+from app.main_ import VideoProcessing
 from app.utils.convert_video_to_base64 import base64_to_video
 
 main_bp = Blueprint('main', __name__)
@@ -9,14 +9,14 @@ main_bp = Blueprint('main', __name__)
 # Initialize the process_complete event
 process_complete = threading.Event()
 
-def make_video_path(base64_string, videoI_userId):
+def process_video(base64_string, videoI_userId):
     print('you are in make_video_path function')
     print('videoId:', videoI_userId)
     output_path = "temporary_video.mp4"
     decoded_video_path = base64_to_video(base64_string, output_path)
     if decoded_video_path:
-        result = main(decoded_video_path, videoI_userId)
-
+        processor = VideoProcessing(decoded_video_path, videoI_userId)
+        result = processor.process()
     process_complete.set()  # Signal that the process is complete
 
     print("Process complete. Signaling for restart...")
@@ -36,7 +36,7 @@ def receive_data():
         process_complete.clear()
         
         def threaded_function(q, video_base64, videoI_userId):
-            result = make_video_path(video_base64, videoI_userId)
+            result = process_video(video_base64, videoI_userId)
             q.put(result)
 
         q = queue.Queue()

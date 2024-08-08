@@ -7,29 +7,6 @@ import matplotlib.pyplot as plt
 from scipy.signal import medfilt
 import speech_recognition as sr
 
-def calculate_pronunciation_score(recognizer, audio_data):
-    try:
-        result = recognizer.recognize_google(audio_data, show_all=True)
-        if not result or 'alternative' not in result:
-            return 0, ""
-        top_alternative = result['alternative'][0]
-        transcript = top_alternative['transcript']
-        confidence = top_alternative.get('confidence', 0.5)
-        return confidence, transcript
-    except sr.UnknownValueError:
-        return 0, ""
-    except sr.RequestError:
-        print("Could not request results from Google Speech Recognition service")
-        return 0, ""
-    
-def transcribe_audio(audio_path):
-    recognizer = sr.Recognizer()
-    audio_file = sr.AudioFile(audio_path)
-    with audio_file as source:
-        audio_data = recognizer.record(source)
-    pronunciation_score, transcript = calculate_pronunciation_score(recognizer, audio_data)
-    return transcript, pronunciation_score 
-
 
 class SpeechAnalyzer:
     def __init__(self):
@@ -98,7 +75,8 @@ class SpeechAnalyzer:
 
 
             #to get the pronunciation score
-            text_, pronunciation_score = transcribe_audio(audio_output_path)
+            # text_, pronunciation_score = transcribe_audio(audio_output_path)
+            pronunciation_score=0.6
             scores = {
                 "grammar":  float(f"{(1 - (float(grammar_mistakes) / self.max_grammar_mistakes)):.2f}"),
                 "fluency": float(f"{fluency:.2f}"),
@@ -117,3 +95,27 @@ class SpeechAnalyzer:
             return None
 
 
+def calculate_pronunciation_score(recognizer, audio_data):
+    try:
+        result = recognizer.recognize_google(audio_data, show_all=True)
+        # print('result:', result)
+        if not result or 'alternative' not in result:
+            return 0, ""
+        top_alternative = result['alternative'][0]
+        transcript = top_alternative['transcript']
+        confidence = top_alternative.get('confidence', 0.34)
+        return confidence, transcript
+    except sr.UnknownValueError:
+        return 0, ""
+    except sr.RequestError:
+        print("Could not request results from Google Speech Recognition service")
+        return 0, ""
+    
+def transcribe_audio(audio_path):
+    recognizer = sr.Recognizer()
+    audio_file = sr.AudioFile(audio_path)
+    with audio_file as source:
+        audio_data = recognizer.record(source)
+    pronunciation_score, transcript = calculate_pronunciation_score(recognizer, audio_data)
+    # print('pronunciation_score, transcript:0', pronunciation_score, transcript)
+    return transcript, pronunciation_score 
