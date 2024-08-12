@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
-import threading
-import queue
+import threading, time, queue
 from app.main_ import VideoProcessing
 from app.utils.convert_video_to_base64 import base64_to_video
 
@@ -27,6 +26,8 @@ def process_video(base64_string, videoI_userId):
 
 @main_bp.route('/post_video', methods=['POST'])
 def receive_data():
+    start_time = time.time()
+    print('process is started:',start_time)
     data = request.get_json()
     try:
         video_base64 = data['baseUrl']  # for development and testing
@@ -58,3 +59,13 @@ def receive_data():
     except Exception as e:
         response = jsonify({'message': 'Error processing request', 'error': str(e), 'result': result})
         return response, 500
+
+    finally:
+        
+        end_time=time.time()
+        print('process is finished and the end_time:',end_time) 
+        total_time = end_time - start_time
+        minutes, seconds = divmod(total_time, 60)
+        # Conditional formatting for minutes
+        minutes_str = f"{minutes}m" if minutes > 0 else ""
+        print(f"Total time taken: {minutes_str} {seconds:.0f}sec")

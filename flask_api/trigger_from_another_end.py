@@ -27,7 +27,7 @@ data = {
 }
 
 def post_data(data):
-    url = 'http://192.168.1.43:5000/post_video'
+    url = 'http://192.168.29.125:5000/post_video'
     
     response = requests.post(url, json=data)
     
