@@ -13,9 +13,11 @@ def process_video(base64_string, videoI_userId):
     print('videoId:', videoI_userId)
     output_path = "temporary_video.mp4"
     decoded_video_path = base64_to_video(base64_string, output_path)
+    print("decoded_video_path:",decoded_video_path)
     if decoded_video_path:
         processor = VideoProcessing(decoded_video_path, videoI_userId)
         result = processor.process()
+
     process_complete.set()  # Signal that the process is complete
 
     print("Process complete. Signaling for restart...")
@@ -31,6 +33,7 @@ def receive_data():
     data = request.get_json()
     try:
         video_base64 = data['baseUrl']  # for development and testing
+
         videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
         
         # Process the video in a separate thread

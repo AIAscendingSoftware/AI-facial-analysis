@@ -4,7 +4,7 @@ from deepface import DeepFace
 from mediapipe import solutions
 
 class GestureAnalyzer:
-    def __init__(self, video_path, target_fps=3):
+    def __init__(self, video_path, target_fps=5):
         self.video_path = video_path
         self.target_fps = target_fps
         self.frame_count = 0
@@ -19,16 +19,7 @@ class GestureAnalyzer:
         self.weight_balanced_count = 0
         self.weight_on_one_leg_count = 0
         self.face_confidences = [] #[[0.8773843050003052], [0.9170314073562622], [0.9451085925102234].....]
-   
-    # def analyze_gestures(self):
-    #     start_time = time.time()
-    #     video = cv2.VideoCapture(self.video_path) #video: < cv2.VideoCapture 00000230E16ADD90>
-
-    #     mp_pose = solutions.pose #mp_pose: <module 'mediapipe.python.solutions.pose' from 'C:\\Users\\ens\\anaconda3\\envs\\AI_facial_analysis_conda_venv\\lib\\site-packages\\mediapipe\\python\\solutions\\pose.py'
-    #     pose = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, min_tracking_confidence=0.5)  #pose: <mediapipe.python.solutions.pose.Pose object at 0x00000230E17D41F0>
-   
-    #     mp_face_detection = solutions.face_detection #mp_face_detection: <module 'mediapipe.python.solutions.face_detection' from 'C:\\Users\\ens\\anaconda3\\envs\\AI_facial_analysis_conda_venv\\lib\\site-packages\\mediapipe\\python\\solutions\\face_detection.py'>
-    #     face_detection = mp_face_detection.FaceDetection(model_selection=1, min_detection_confidence=0.5) #face_detection: <mediapipe.python.solutions.face_detection.FaceDetection object at 0x00000230E17D4310>
+  
     def analyze_gestures(self):
 
         video = cv2.VideoCapture(self.video_path)

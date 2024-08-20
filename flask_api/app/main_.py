@@ -3,7 +3,7 @@ from app.utils.video_to_audio_analyse import SpeechAnalyzer
 from app.utils.convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
 from api import APIs
 import time
-import datetime
+
 from app.utils.converting_video_to_audio import VideoToAudio
 from app.utils.audio_to_text import audioToText
 
@@ -17,8 +17,10 @@ class VideoProcessing:
     def convert_video_to_audio(self):
         video_to_audio_object = VideoToAudio(self.video_path, self.audio_output_path)
         result = video_to_audio_object.video_to_audio_ffmpeg()
+        print("result:", result)
         if result is None:
-            raise ValueError("There is no audio to extract. Please check if the video has English audio.")
+            # raise ValueError("There is no audio to extract. Please check if the video has English audio.")
+            return "There is no audio to extract. Please check if the video has English audio."
         print(f"Audio file created at: {result}")
 
     def convert_audio_to_text(self):
@@ -99,17 +101,16 @@ class VideoProcessing:
         return one_video_data
 
     def post_results(self, one_video_data):
-        # post_video_result = self.api_object.post_one_video_result(one_video_data)
-        # print('Post video result:', post_video_result)
-        # result = self.api_object.get_details(self.videoI_userId['userId'])
-        # print(result, 'Final result data')
-        # final_out = find_average(result)
-        # print('Final output:', final_out)
-        # self.api_object.post_final_data(final_out)
-        pass
+        post_video_result = self.api_object.post_one_video_result(one_video_data)
+        print('Post video result:', post_video_result)
+        result = self.api_object.get_details(self.videoI_userId['userId'])
+        print(result, 'Final result data')
+        final_out = find_average(result)
+        print('Final output:', final_out)
+        self.api_object.post_final_data(final_out)
+        
 
     def process(self):
-        start_time = time.time()
         try:
             self.convert_video_to_audio()
             transcribed_text = self.convert_audio_to_text()
@@ -120,11 +121,7 @@ class VideoProcessing:
             return 'Data processed successfully'
         except ValueError as e:
             return str(e)
-        finally:
-            end_time = time.time()
-            time_taken = end_time - start_time
-            time_taken_minutes = time_taken / 60
-            print(f"Time taken: {time_taken_minutes:.2f} minutes")
+ 
 
 def find_average(combined_dict):
     keys_to_ignore = {"id", "userId", "videoId", "voiceGraphBase64"}
