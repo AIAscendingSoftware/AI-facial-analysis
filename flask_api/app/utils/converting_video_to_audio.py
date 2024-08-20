@@ -9,7 +9,12 @@ class VideoToAudio:
 
     def has_audio_stream(self):
         command = ['ffprobe', '-v', 'error', '-select_streams', 'a', '-show_entries', 'stream=codec_type', '-of', 'json', self.video_path]
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        print("has_audio_stream command:",command )
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+        except:
+            return "there is no proper video data"
+        print("has_audio_stream result:",result)
         streams = json.loads(result.stdout).get('streams', [])
         return any(stream.get('codec_type') == 'audio' for stream in streams)
 
