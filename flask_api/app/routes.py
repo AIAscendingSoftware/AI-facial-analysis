@@ -13,24 +13,30 @@ def process_video(base64_string, videoI_userId):
     print('videoId:', videoI_userId)
     output_path = "temporary_video.mp4"
     decoded_video_path = base64_to_video(base64_string, output_path)
-    print("decoded_video_path:",decoded_video_path)
-    if decoded_video_path:
-        processor = VideoProcessing(decoded_video_path, videoI_userId)
-        result = processor.process()
+    if decoded_video_path != "Invalid Base64 string":
+        print("decoded_video_path result:",decoded_video_path)
+        if decoded_video_path:
+            processor = VideoProcessing(decoded_video_path, videoI_userId)
+            result = processor.process()
 
-    process_complete.set()  # Signal that the process is complete
+        process_complete.set()  # Signal that the process is complete
 
-    print("Process complete. Signaling for restart...")
-    with open("restart.txt", "w") as f:
-        f.write("restart")
-    print(result, type(result))
-    return result
+        print(result, type(result))
+        return result
+    else:
+        return "Invalid Base64 string, there is improper baseurl"
+
+
+        
+
+
 
 @main_bp.route('/post_video', methods=['POST'])
 def receive_data():
     start_time = time.time()
     print('process is started:',start_time)
     data = request.get_json()
+    print(data,'data by trigger')
     try:
         video_base64 = data['baseUrl']  # for development and testing
 

@@ -1,6 +1,6 @@
 class Config:
     DEBUG = True
-    HOST = "192.168.110.247"
+    HOST = "192.168.29.216"
     PORT = 5000
 
 # we can add more configuration classes if needed, e.g.:

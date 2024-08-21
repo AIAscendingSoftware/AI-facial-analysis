@@ -4,7 +4,7 @@ from deepface import DeepFace
 from mediapipe import solutions
 
 class GestureAnalyzer:
-    def __init__(self, video_path, target_fps=5):
+    def __init__(self, video_path, target_fps=15):
         self.video_path = video_path
         self.target_fps = target_fps
         self.frame_count = 0
@@ -21,62 +21,57 @@ class GestureAnalyzer:
         self.face_confidences = [] #[[0.8773843050003052], [0.9170314073562622], [0.9451085925102234].....]
   
     def analyze_gestures(self):
-
         video = cv2.VideoCapture(self.video_path)
-        
-        # Get original FPS of the video
-        original_fps = video.get(cv2.CAP_PROP_FPS)
-        print('original_fps:', original_fps)
-        if original_fps <= 0:
-            original_fps = 30  # Fallback to a default value if FPS cannot be determined
 
-        frame_interval = max(1, int(original_fps / self.target_fps))
-        print('frame_interval:', frame_interval)
         mp_pose = solutions.pose
         pose = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
         mp_face_detection = solutions.face_detection
         face_detection = mp_face_detection.FaceDetection(model_selection=1, min_detection_confidence=0.5)
+        
+        # Get original FPS of the video
+        original_fps = video.get(cv2.CAP_PROP_FPS)
+        print('original_fps:', original_fps, type(original_fps))
+        # Get the total number of frames
+        total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+        print("Total frames in the video:", total_frames)
+
+        if int(original_fps) > 15:
+            frame_interval = max(1, int(original_fps / self.target_fps))
+        else: #else part handles when fps level are less than 15
+            frame_interval=1
+        print('frame_interval:', frame_interval)
 
         processed_frame_count = 0  # Initialize the variable outside the loop
         while video.isOpened():
             ret, frame = video.read()
             if not ret:
                 break
-            
-            
+
             self.frame_count += 1
             if self.frame_count % frame_interval == 0:
                 print('self.frame_count % frame_interval:', self.frame_count % frame_interval, 'self.frame_count:',self.frame_count,'frame_interval:',frame_interval)
                 processed_frame_count += 1
                 print('processed_frame_count:', processed_frame_count)
-
                 image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 # Convert back to BGR for displaying in OpenCV
                 image_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 cv2.imshow('Frame', image_bgr)
-                self.frame_count += 1 #frame is nothing but an image
 
                 face_results = face_detection.process(image)
-
                 if face_results.detections:
-
                     for detection in face_results.detections:
                         self.face_confidences.append(detection.score) 
                 try:
                     result = DeepFace.analyze(frame, actions=["emotion"], enforce_detection=False)
-
                     if isinstance(result, list):
                         result = result[0]
-
                     for e, conf in result["emotion"].items():
                     
                         if e in self.emotion_confidences:
                             self.emotion_confidences[e].append(conf) #appending the emotion values respect to their key for all frames
-
                 except Exception as e:
                     print(f"Error analyzing frame: {e}")
-
                 pose_results = pose.process(image) #class 'mediapipe.python.solution_base.SolutionOutputs'>, if there is 55 frames,it will bring hfor each of them
                 '''each mp_pose.PoseLandmark.__ has x,y,z and visibility values'''
                 if pose_results.pose_landmarks: 
@@ -84,44 +79,34 @@ class GestureAnalyzer:
                     left_eye = landmarks[mp_pose.PoseLandmark.LEFT_EYE]
                     right_eye = landmarks[mp_pose.PoseLandmark.RIGHT_EYE]
                     nose = landmarks[mp_pose.PoseLandmark.NOSE]
-
                     if left_eye.visibility > 0.5 and right_eye.visibility > 0.5:
                         self.eye_contact_count += 1
-
                         if abs(left_eye.y - right_eye.y) < 0.02 and abs(nose.x - (left_eye.x + right_eye.x) / 2) < 0.02:
                             self.looking_straight_count += 1
-
                     if landmarks[mp_pose.PoseLandmark.MOUTH_LEFT].y < landmarks[mp_pose.PoseLandmark.MOUTH_RIGHT].y:
                         self.smile_count += 1
-
                     if landmarks[mp_pose.PoseLandmark.LEFT_WRIST].visibility > 0.5 or landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].visibility > 0.5:
                         self.hand_usage_count += 1
-
                     if landmarks[mp_pose.PoseLandmark.LEFT_WRIST].x > landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].x:
                         self.arms_crossed_count += 1
-
                     left_wrist = landmarks[mp_pose.PoseLandmark.LEFT_WRIST]
                     right_wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
                     if left_wrist.visibility > 0.5 and right_wrist.visibility > 0.5:
                         wrist_distance = np.sqrt((left_wrist.x - right_wrist.x) ** 2 + (left_wrist.y - right_wrist.y) ** 2)
                         if wrist_distance < 0.1:
                             self.wrists_closed_count += 1
-
                     left_foot = landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX]
                     right_foot = landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX]
                     if (left_foot.visibility > 0.5 and right_foot.visibility < 0.5) or (left_foot.visibility < 0.5 and right_foot.visibility > 0.5):
                         self.weight_on_one_leg_count += 1
-
                     if abs(landmarks[mp_pose.PoseLandmark.LEFT_KNEE].y - landmarks[mp_pose.PoseLandmark.RIGHT_KNEE].y) > 0.02:
                         self.leg_movement_count += 1
-
                     if left_foot.visibility > 0.5 and right_foot.visibility > 0.5:
                         self.weight_balanced_count += 1
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
         print('processed_frame_count:',processed_frame_count)
         video.release()
-
 
     def get_results(self):
         total_frames = self.frame_count

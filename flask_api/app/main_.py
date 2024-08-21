@@ -108,6 +108,7 @@ class VideoProcessing:
         final_out = find_average(result)
         print('Final output:', final_out)
         self.api_object.post_final_data(final_out)
+        pass
         
 
     def process(self):
