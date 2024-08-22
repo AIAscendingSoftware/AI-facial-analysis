@@ -1,10 +1,10 @@
 from app.utils.getting_gestures_score import GestureAnalyzer
 from app.utils.video_to_audio_analyse import SpeechAnalyzer
-from app.utils.convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
 from api import APIs
 from app.utils.converting_video_to_audio import VideoToAudio
 from app.utils.audio_to_text import audioToText
 from app.config import Config
+from app.static.statistics import find_average
 
 
 class VideoProcessing:
@@ -108,9 +108,8 @@ class VideoProcessing:
         final_out = find_average(result)
         print('Final output:', final_out)
         self.api_object.post_final_data(final_out)
-        pass
+       
         
-
     def process(self):
         try:
             self.convert_video_to_audio()
@@ -118,29 +117,29 @@ class VideoProcessing:
             gesture_results = self.analyze_gestures()
             speech_scores = self.analyze_speech(transcribed_text)
             one_video_data = self.combine_results(gesture_results, speech_scores)
-            # self.post_results(one_video_data) #to push analyzed data and pull that user existing data to calculate their average and then post those calculated data
+            self.post_results(one_video_data) #to push analyzed data and pull that user existing data to calculate their average and then post those calculated data
             return 'Data processed successfully'
         except ValueError as e:
             return str(e)
  
 
-def find_average(combined_dict):
-    keys_to_ignore = {"id", "userId", "videoId", "voiceGraphBase64"}
-    keys = [key for key in combined_dict[0].keys() if key not in keys_to_ignore]
+# def find_average(combined_dict):
+#     keys_to_ignore = {"id", "userId", "videoId", "voiceGraphBase64"}
+#     keys = [key for key in combined_dict[0].keys() if key not in keys_to_ignore]
     
-    sums = {key: 0 for key in keys}
-    count = len(combined_dict)
+#     sums = {key: 0 for key in keys}
+#     count = len(combined_dict)
     
-    for obj in combined_dict:
-        for key in keys:
-            sums[key] += obj[key]
+#     for obj in combined_dict:
+#         for key in keys:
+#             sums[key] += obj[key]
     
-    averages = {key: round(sums[key] / count, 2) for key in keys}
+#     averages = {key: round(sums[key] / count, 2) for key in keys}
 
-    average_dict = {
-        "userId": combined_dict[0]["userId"],
-        **averages,
-        "voiceGraphBase64": "iVBORw0KGgoAAAANSUhEUgAADhAA"
-    }
+#     average_dict = {
+#         "userId": combined_dict[0]["userId"],
+#         **averages,
+#         "voiceGraphBase64": "iVBORw0KGgoAAAANSUhEUgAADhAA"
+#     }
     
-    return average_dict
+#     return average_dict
