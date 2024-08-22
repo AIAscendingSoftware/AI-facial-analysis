@@ -2,32 +2,32 @@ from app.utils.getting_gestures_score import GestureAnalyzer
 from app.utils.video_to_audio_analyse import SpeechAnalyzer
 from app.utils.convert_video_to_base64 import video_to_base64, base64_to_video, converting_image_base64_into_image
 from api import APIs
-import time
-
 from app.utils.converting_video_to_audio import VideoToAudio
 from app.utils.audio_to_text import audioToText
+from app.config import Config
+
 
 class VideoProcessing:
     def __init__(self, video_path, videoI_userId):
         self.video_path = video_path
         self.videoI_userId = videoI_userId
         self.api_object = APIs()
-        self.audio_output_path = "extracted_audio.wav"
+        self.audio_output_path = Config.audio_path
     
     def convert_video_to_audio(self):
         video_to_audio_object = VideoToAudio(self.video_path, self.audio_output_path)
         result = video_to_audio_object.video_to_audio_ffmpeg()
-        print("result:", result)
+        print("result from convert_video_to_audio method:", result)
         if result is None:
-            # raise ValueError("There is no audio to extract. Please check if the video has English audio.")
-            return "There is no audio to extract. Please check if the video has English audio."
+            raise ValueError("There is no audio to extract. Please check if the video has human voices in English or not")
+            # return "There is no audio to extract. Please check if the video has English audio."
         print(f"Audio file created at: {result}")
 
     def convert_audio_to_text(self):
         audioToText_object = audioToText(self.audio_output_path)
         transcribed_text = audioToText_object.transcribe_audio()
         if transcribed_text is None:
-            raise ValueError("There is no audio to extract. Please check if the video has English audio.")
+            raise ValueError("There are no human voices in the video")
         print("Transcribed Text:", transcribed_text)
         return transcribed_text
 
@@ -118,7 +118,7 @@ class VideoProcessing:
             gesture_results = self.analyze_gestures()
             speech_scores = self.analyze_speech(transcribed_text)
             one_video_data = self.combine_results(gesture_results, speech_scores)
-            self.post_results(one_video_data)
+            # self.post_results(one_video_data) #to push analyzed data and pull that user existing data to calculate their average and then post those calculated data
             return 'Data processed successfully'
         except ValueError as e:
             return str(e)

@@ -99,5 +99,26 @@
 # a=556%10
 # print(a)
 
-d='ghf'+'rrr'
-print(d)
+# d='ghf'+'rrr'
+# print(d)
+
+# def process_audio(audio_data):
+#     if audio_data is None:
+#         # raise ValueError("There is no audio to extract.")
+#         raise TypeError('there is no audio to extrat')
+#     # Process the audio data
+#     return "Processed Audio"
+
+# try:
+#     result = process_audio(None)
+# except TypeError as e:
+#     print(f"Error occured as {e}")
+
+
+class necessary_paths:
+    video_path="extracted_audio.wav"
+    audio_path="extracted_audio.wav"
+
+
+audio_path=necessary_paths.audio_path
+print(audio_path)

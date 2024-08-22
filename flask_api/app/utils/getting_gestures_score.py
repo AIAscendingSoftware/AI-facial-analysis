@@ -4,7 +4,7 @@ from deepface import DeepFace
 from mediapipe import solutions
 
 class GestureAnalyzer:
-    def __init__(self, video_path, target_fps=15):
+    def __init__(self, video_path, target_fps=1): #target_fps=15
         self.video_path = video_path
         self.target_fps = target_fps
         self.frame_count = 0

@@ -30,7 +30,7 @@ def is_base64(s: str) -> bool:
 def base64_to_video(base64_string, output_path):
     # Validate the base64 string
     if not is_base64(base64_string):
-        return "Invalid Base64 string"
+        return None #"Invalid Base64 string"
 
     try:
         # Decode the Base64 string back to bytes
