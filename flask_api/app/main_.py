@@ -112,12 +112,12 @@ class VideoProcessing:
         
     def process(self):
         try:
-            self.convert_video_to_audio()
-            transcribed_text = self.convert_audio_to_text()
+            # self.convert_video_to_audio()
+            # transcribed_text = self.convert_audio_to_text()
             gesture_results = self.analyze_gestures()
-            speech_scores = self.analyze_speech(transcribed_text)
-            one_video_data = self.combine_results(gesture_results, speech_scores)
-            self.post_results(one_video_data) #to push analyzed data and pull that user existing data to calculate their average and then post those calculated data
+            # speech_scores = self.analyze_speech(transcribed_text)
+            # one_video_data = self.combine_results(gesture_results, speech_scores)
+            # self.post_results(one_video_data) #to push analyzed data and pull that user existing data to calculate their average and then post those calculated data
             return 'Data processed successfully completed!'
         except ValueError as e:
             return str(e)
