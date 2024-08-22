@@ -4,35 +4,37 @@ from app.utils.handling_files import remove_file
 from app.utils.initiating_process import process_video
 import time
 
-
 main_bp = Blueprint('main', __name__)
-
-
-
-
-
 
 @main_bp.route('/post_video', methods=['POST'])
 def receive_data():
     start_time = time.time()
-    print('process is started:',start_time)
+    print('Process started:', start_time)
     data = request.get_json()
-    # print(data,'data by trigger')
+
     try:
-        # video_base64 = data['baseUrl']  # for development and testing
-        video_base64=data["videoBytes"]
+        video_base64 = data["videoBytes"]
+        video_user_id = {"userId": data['userId'], 'videoId': data['id']}
 
-        videoI_userId = {"userId": data['userId'], 'videoId': data['id']}
+        result = process_video(video_base64, video_user_id)
+        print('Result from .route/post_video:', result)
 
-        result = process_video(video_base64, videoI_userId)
-        print('result from .route/post_video:', result)
-        # Prepare and send the response after processing is complete
-        response = jsonify({'message': result})
-        print('Restarting app...')
-        return response, 200  # 200 OK
+        # Check the result for success or error
+        if result == 'Data processed successfully completed!':
+            # Prepare and send a success response
+            response = jsonify({'message': 1, 'text':result })
+            return response, 200  # 200 OK
+        else:
+            # Prepare and send an error response
+            response = jsonify({'message': 2, 'text':result })
+            return response, 200  # 200 OK
 
     except Exception as e:
-        response = jsonify({'message': 'Error processing request', 'error': str(e), 'result': result})
+        # Handle exceptions and prepare the error response
+        response = jsonify({
+            'message': 'Error processing request',
+            'error': str(e)
+        })
         return response, 500
 
     finally:
