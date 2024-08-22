@@ -1,5 +1,5 @@
 
-import base64
+import base64,re
 from PIL import Image
 from io import BytesIO
 import matplotlib.pyplot as plt
@@ -10,15 +10,36 @@ def video_to_base64(video_path):
         base64_string = base64.b64encode(video_bytes).decode('utf-8')
     return base64_string
 
+def is_base64(s: str) -> bool:
+    # Check if string length is a multiple of 4
+    if len(s) % 4 != 0:
+        return False
+    
+    # Check if string consists of valid base64 characters
+    base64_pattern = re.compile(r'^[A-Za-z0-9+/]+={0,2}$')
+    if not base64_pattern.match(s):
+        return False
+    
+    # Try to decode the string using base64
+    try:
+        base64.b64decode(s, validate=True)
+        return True
+    except ValueError:
+        return False
+
 def base64_to_video(base64_string, output_path):
-    # print(base64_string,len(base64_string),type(base64_string),'this is base64_string')
+    # Validate the base64 string
+    if not is_base64(base64_string):
+        return None #"Invalid Base64 string"
+
     try:
         # Decode the Base64 string back to bytes
         video_bytes = base64.b64decode(base64_string)
-        # print('video_bytes:',video_bytes,'thisd is video_bytes ')
+        
         # Write the bytes to a video file
         with open(output_path, "wb") as video_file:
             video_file.write(video_bytes)
+        
         return output_path
 
     except Exception as e:

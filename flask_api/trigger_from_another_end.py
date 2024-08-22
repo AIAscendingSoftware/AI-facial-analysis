@@ -10,7 +10,7 @@ video_path=r"E:\AI Ascending Software\AS AI Projects\AI facial analysis\videos f
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\video without human voice .mp4" #low voice video
 
 base64_string = video_to_base64(video_path)
-
+# print(base64_string,'base64_string')
 output_path = "temporary_video.mp4"
 video_path = base64_to_video(base64_string, output_path)
 print(video_path)
