@@ -1,6 +1,6 @@
 class Config:
     DEBUG = True
-    HOST = "0.0.0.0"
+    HOST = "192.168.29.125"
     PORT = 5000
     video_path="temporary_video.mp4"
     audio_path="extracted_audio.wav"

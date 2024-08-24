@@ -115,10 +115,13 @@
 #     print(f"Error occured as {e}")
 
 
-class necessary_paths:
-    video_path="extracted_audio.wav"
-    audio_path="extracted_audio.wav"
+# class necessary_paths:
+#     video_path="extracted_audio.wav"
+#     audio_path="extracted_audio.wav"
 
 
-audio_path=necessary_paths.audio_path
-print(audio_path)
+# audio_path=necessary_paths.audio_path
+# print(audio_path)
+
+a=15 % 1
+print(a)
