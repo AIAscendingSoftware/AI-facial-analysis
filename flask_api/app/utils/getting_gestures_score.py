@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
 import mediapipe as mp
-from deepface import DeepFace
-from mediapipe import solutions
+from deepface import DeepFace #deepface for Emotion analysis
+from mediapipe import solutions #mediapipe for pose related prediction
 
 class GestureAnalyzer:
-    def __init__(self, video_path, target_fps=1): #target_fps=15
+    def __init__(self, video_path, target_fps=15): #target_fps=15
         self.video_path = video_path
         self.target_fps = target_fps
         self.frame_count = 0
@@ -57,7 +57,7 @@ class GestureAnalyzer:
                 if face_results.detections:
                     for detection in face_results.detections:
                         self.face_confidences.append(detection.score)
-                        mp_drawing.draw_detection(image_bgr, detection)
+                        mp_drawing.draw_detection(image_bgr, detection) #to detect  face only
     
                 # Emotion analysis
                 try:
@@ -80,52 +80,80 @@ class GestureAnalyzer:
                     left_eye = landmarks[mp_pose.PoseLandmark.LEFT_EYE]
                     right_eye = landmarks[mp_pose.PoseLandmark.RIGHT_EYE]
                     nose = landmarks[mp_pose.PoseLandmark.NOSE]
-    
-                    if left_eye.visibility > 0.5 and right_eye.visibility > 0.5:
-                        self.eye_contact_count += 1
-                        if abs(left_eye.y - right_eye.y) < 0.02 and abs(nose.x - (left_eye.x + right_eye.x) / 2) < 0.02:
-                            self.looking_straight_count += 1
-                            cv2.putText(image_bgr, "Looking straight", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
-                    if landmarks[mp_pose.PoseLandmark.MOUTH_LEFT].y < landmarks[mp_pose.PoseLandmark.MOUTH_RIGHT].y:
-                        self.smile_count += 1
-                        cv2.putText(image_bgr, "Smiling", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
-                    if landmarks[mp_pose.PoseLandmark.LEFT_WRIST].visibility > 0.5 or landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].visibility > 0.5:
+
+
+                    #passed Hand usage is passed
+                    if landmarks[mp_pose.PoseLandmark.LEFT_WRIST].visibility > 0.7 or landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].visibility > 0.7:
                         self.hand_usage_count += 1
                         cv2.putText(image_bgr, "Hand usage", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
-                    if landmarks[mp_pose.PoseLandmark.LEFT_WRIST].x > landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].x:
-                        self.arms_crossed_count += 1
-                        cv2.putText(image_bgr, "Arms crossed", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
-                    left_wrist = landmarks[mp_pose.PoseLandmark.LEFT_WRIST]
-                    right_wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
-                    if left_wrist.visibility > 0.5 and right_wrist.visibility > 0.5:
-                        wrist_distance = np.sqrt((left_wrist.x - right_wrist.x) ** 2 + (left_wrist.y - right_wrist.y) ** 2)
-                        if wrist_distance < 0.1:
-                            self.wrists_closed_count += 1
-                            cv2.putText(image_bgr, "Wrists closed", (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
+
+                    # weight_on_one_leg_count is passed
                     left_foot = landmarks[mp_pose.PoseLandmark.LEFT_FOOT_INDEX]
                     right_foot = landmarks[mp_pose.PoseLandmark.RIGHT_FOOT_INDEX]
-                    if (left_foot.visibility > 0.5 and right_foot.visibility < 0.5) or (left_foot.visibility < 0.5 and right_foot.visibility > 0.5):
+                    if (left_foot.visibility > 0.9 and right_foot.visibility < 0.5) or (left_foot.visibility < 0.5 and right_foot.visibility > 0.9):
                         self.weight_on_one_leg_count += 1
                         cv2.putText(image_bgr, "Weight on one leg", (10, 210), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
-                    if abs(landmarks[mp_pose.PoseLandmark.LEFT_KNEE].y - landmarks[mp_pose.PoseLandmark.RIGHT_KNEE].y) > 0.02:
-                        self.leg_movement_count += 1
-                        cv2.putText(image_bgr, "Leg movement", (10, 240), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-    
-                    if left_foot.visibility > 0.5 and right_foot.visibility > 0.5:
+                    
+                    #weight balanced on both leg is passed
+                    if left_foot.visibility > 0.9 and right_foot.visibility > 0.9:
                         self.weight_balanced_count += 1
                         cv2.putText(image_bgr, "Weight balanced", (10, 270), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+                    # # wrists_closed is secondary
+                    # left_wrist = landmarks[mp_pose.PoseLandmark.LEFT_WRIST]
+                    # right_wrist = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST]
+                    # if left_wrist.visibility > 0.8 and right_wrist.visibility > 0.8:
+
+                    #     wrist_distance = np.sqrt((left_wrist.x - right_wrist.x) ** 2 + (left_wrist.y - right_wrist.y) ** 2)
+                        
+                    #     if wrist_distance < 0.1:
+                    #         print('(left_wrist.x - right_wrist.x) ** 2:',(left_wrist.x - right_wrist.x) ** 2)
+                    #         print('(left_wrist.y - right_wrist.y) ** 2:', (left_wrist.y - right_wrist.y) ** 2)
+                    #         print('left_wrist.visibility:',left_wrist.visibility)
+                    #         print('right_wrist.visibility:',right_wrist.visibility)
+                    #         print('wrist_distance:',wrist_distance)
+                    #         self.wrists_closed_count += 1
+                    #         print('self.wrists_closed_count :', self.wrists_closed_count )
+                    #         cv2.putText(image_bgr, "Wrists closed", (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    
+                    #arms_crossed is failed
+                    # if landmarks[mp_pose.PoseLandmark.LEFT_WRIST].x > landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].x:
+                    #     print('landmarks[mp_pose.PoseLandmark.LEFT_WRIST].x:',landmarks[mp_pose.PoseLandmark.LEFT_WRIST].x)
+                    #     print('landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].x:', landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].x)
+                    #     print(landmarks[mp_pose.PoseLandmark.LEFT_WRIST].x > landmarks[mp_pose.PoseLandmark.RIGHT_WRIST].x)
+                    #     self.arms_crossed_count += 1
+                    #     print('self.arms_crossed_count:', self.arms_crossed_count)
+                    #     cv2.putText(image_bgr, "Arms crossed", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
+                    #eye_contact and looking_straight are failed
+                    # if left_eye.visibility > 0.5 and right_eye.visibility > 0.5:
+                    #     self.eye_contact_count += 1
+                    #     if abs(left_eye.y - right_eye.y) < 0.02 and abs(nose.x - (left_eye.x + right_eye.x) / 2) < 0.02:
+                    #         self.looking_straight_count += 1
+                    #         cv2.putText(image_bgr, "Looking straight", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    
+                    #smile_count is failed
+                    # if landmarks[mp_pose.PoseLandmark.MOUTH_LEFT].y < landmarks[mp_pose.PoseLandmark.MOUTH_RIGHT].y:
+                    #     print('landmarks[mp_pose.PoseLandmark.MOUTH_LEFT].y:',landmarks[mp_pose.PoseLandmark.MOUTH_LEFT].y)
+                    #     print('landmarks[mp_pose.PoseLandmark.MOUTH_RIGHT].y:',landmarks[mp_pose.PoseLandmark.MOUTH_RIGHT].y)
+                    #     print(landmarks[mp_pose.PoseLandmark.MOUTH_LEFT].y < landmarks[mp_pose.PoseLandmark.MOUTH_RIGHT].y)
+                    #     self.smile_count += 1
+                    #     print('self.smile_count:',self.smile_count)
+                    #     cv2.putText(image_bgr, "Smiling", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    
+                    # if abs(landmarks[mp_pose.PoseLandmark.LEFT_KNEE].y - landmarks[mp_pose.PoseLandmark.RIGHT_KNEE].y) > 0.02:
+                    #     self.leg_movement_count += 1
+
+                    #     print('self.leg_movement_count:',self.leg_movement_count)
+                    #     cv2.putText(image_bgr, "Leg movement", (10, 240), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                 cv2.imshow('Frame', image_bgr)
     
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
-            
+        print('total frame_count:',processed_frame_count)
+        print('self.hand_usage_count:', self.hand_usage_count)
+        print('self.weight_on_one_leg_count:', self.weight_on_one_leg_count)
+        print('self.leg_movement_count total:',self.weight_balanced_count)  
         video.release()
         cv2.destroyAllWindows()
     
