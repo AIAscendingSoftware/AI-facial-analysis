@@ -141,35 +141,112 @@ a=(15**2)
 # average = np.mean(data)
 # print(average)
 
-import numpy as np
+# import numpy as np
 
-# Initial emotion data
-emotion_data = {
-    'happy': [96.84540070946208, 0.0005374122793000424, 0.00, 0.0003083065166720189, 0.00022041744109199264, 4.010426356985951e-05, 1.903873510193311e-05, 1.2573278240779473e-05, 6.716470011269848e-05, 2.9130338754683397e-05],
-    'angry': [0.015638785726144376, 0.023322597553487867, 67, 0.006739799573551863, 0.0021203053065222124, 0.004615141547296087, 0.002995248174826506, 0.039374863263219595, 0.009953287371899933, 0.0008840032788902338],
-    'neutral': [0, 98.27663898468018, 96.72518968582153, 0, 99.86643194356155, 99.81215598438311, 99.87237452699986, 99.59481358528137, 99.8687207698822, 99.99152422052333]
-}
+# # Initial emotion data
+# emotion_data = {
+#     'happy': [96.84540070946208, 0.0005374122793000424, 0.00, 0.0003083065166720189, 0.00022041744109199264, 4.010426356985951e-05, 1.903873510193311e-05, 1.2573278240779473e-05, 6.716470011269848e-05, 2.9130338754683397e-05],
+#     'angry': [0.015638785726144376, 0.023322597553487867, 67, 0.006739799573551863, 0.0021203053065222124, 0.004615141547296087, 0.002995248174826506, 0.039374863263219595, 0.009953287371899933, 0.0008840032788902338],
+#     'neutral': [0, 98.27663898468018, 96.72518968582153, 0, 99.86643194356155, 99.81215598438311, 99.87237452699986, 99.59481358528137, 99.8687207698822, 99.99152422052333]
+# }
 
-# Get the number of frames (assuming all emotions have the same number of frames)
-num_frames = len(next(iter(emotion_data.values())))
+# # Get the number of frames (assuming all emotions have the same number of frames)
+# num_frames = len(next(iter(emotion_data.values())))
 
-# Initialize a dictionary to store modified values with zeros
-modified_data = {emotion: [0] * num_frames for emotion in emotion_data}
+# # Initialize a dictionary to store modified values with zeros
+# modified_data = {emotion: [0] * num_frames for emotion in emotion_data}
 
-# Iterate over each frame (index)
-for i in range(num_frames):
-    # Find the emotion with the highest predicted value at index i
-    highest_value = 0
-    highest_emotion = None
+# # Iterate over each frame (index)
+# for i in range(num_frames):
+#     # Find the emotion with the highest predicted value at index i
+#     highest_value = 0
+#     highest_emotion = None
     
-    for emotion, values in emotion_data.items():
-        if values[i] > highest_value:
-            highest_value = values[i]
-            highest_emotion = emotion
+#     for emotion, values in emotion_data.items():
+#         if values[i] > highest_value:
+#             highest_value = values[i]
+#             highest_emotion = emotion
     
-    # Set the highest value in the corresponding emotion, other emotions will have zero
-    modified_data[highest_emotion][i] = highest_value
+#     # Set the highest value in the corresponding emotion, other emotions will have zero
+#     modified_data[highest_emotion][i] = highest_value
 
-# Calculate the average for each emotion using the modified data
-averages = {emotion: round(np.mean(values)/10,2) for emotion, values in modified_data.items()}
-print(averages)
+# # Calculate the average for each emotion using the modified data
+# averages = {emotion: round(np.mean(values)/10,2) for emotion, values in modified_data.items()}
+# # print(averages)
+
+# emotions = {'happy': 4, 'neutral': 4, 'surprise': 4, 'angry': 4, 'fear': 4, 'disgust':4, 'sad': 4}
+
+# weights = {'happy': 1.0, 'neutral': 0.5, 'surprise': 0.4, 'angry': -0.7, 'fear': -0.9, 'disgust': -1.0, 'sad': -0.8}
+
+# # Calculate weighted sum
+# weighted_sum = sum(emotions[emotion] * weights[emotion] for emotion in emotions)
+
+# # Max possible weighted sum for normalization
+# max_weighted_sum = (10 * 1.0 + 10 * 0.5 + 10 * 0.4) + (10 * -0.8 + 10 * -0.7 + 10 * -0.9 + 10 * -1.0)
+
+# # Scale the confidence to a range of 0 to 10
+# confidence_score = (weighted_sum / max_weighted_sum) * 10
+
+# print("Confidence Score:", confidence_score)
+
+
+# Given emotional values
+emotions = {'happy': 10, 'neutral': 10, 'surprise': 10, 'angry': 0, 'fear': 0, 'disgust': 0.0, 'sad': 0}
+
+# # Given emotion scores
+# happy = 3
+# neutral = 10
+# surprise = 9
+# angry = 1.7
+# fear = 4.7
+# disgust =6
+# sad = 0.6
+
+# # Calculate positive and negative contributions
+# positive_contribution = happy + surprise
+# negative_contribution = neutral + angry + fear + disgust + sad
+
+# # Total emotions count
+# total_emotions = 7
+
+# # Net score
+# net_score = (positive_contribution - negative_contribution) / total_emotions
+
+# # Normalize the net score (scaling between 0 to 10)
+# normalized_score = ((net_score + 1) / 2) * 10
+
+# # Ensure the score is within 0 to 10 range
+# confidence_score = max(0, min(normalized_score, 10))
+
+# print(f"Facial Confidence Score: {confidence_score:.2f}")
+
+# def convert_confidence(score):
+#     # Normalize the score to a 0-1 range
+#     normalized_score = (score - 1) / 9
+#     print('normalized_score:',normalized_score)
+#     # Scale to the 5-1 range
+#     converted_score = 5 - (normalized_score * 4)
+    
+#     return round(converted_score, 1)
+
+# Example usage
+# print(convert_confidence(.8)) 
+# print(convert_confidence(5))  # This will return a value close to 3
+
+
+def convert_confidence(score):
+    # Normalize the score to a 0-1 range
+    normalized_score = (score - 1) / 9
+    print('normalized_score:', normalized_score)
+
+    # Scale to the 5-1 range
+    converted_score = 5 - (normalized_score * 4)
+
+    # Ensure the converted score does not exceed 5
+    if converted_score > 5:
+        converted_score = 5
+
+    return round(converted_score, 1)
+
+# Example usage
+print(convert_confidence(10))  # Output should be 5.0 if beyond 5

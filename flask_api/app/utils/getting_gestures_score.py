@@ -52,34 +52,72 @@ class GestureAnalyzer:
                 image_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
                 # Face detection
-                face_results = self.face_detector.detect_faces(image)
+                face_results = self.face_detector.detect_faces(image) 
+                '''None or empty list: No faces were detected in the frame.'''
                 if face_results:
+                    '''moving to further analysis if face is detected'''
+                    '''face_results: [label_id: 0score: 0.811774731
+                        location_data {
+                          format: RELATIVE_BOUNDING_BOX
+                          relative_bounding_box {
+                            xmin: 0.43934235
+                            ymin: 0.267300308
+                            width: 0.29065153
+                            height: 0.516717315
+                          }
+                          relative_keypoints {
+                            x: 0.522203267
+                            y: 0.432177067
+                          }
+                          relative_keypoints {
+                            x: 0.642713249
+                            y: 0.443909585
+                          }
+                          relative_keypoints {
+                            x: 0.581252396
+                            y: 0.564728
+                          }
+                          relative_keypoints {
+                            x: 0.576596856
+                            y: 0.659892619
+                          }
+                          relative_keypoints {
+                            x: 0.456542581
+                            y: 0.463175416
+                          }
+                          relative_keypoints {
+                            x: 0.702619195
+                            y: 0.485643089
+                          }
+                        }
+                        ]
+                    '''
                     for detection in face_results:
                         self.face_confidences.append(detection.score)
                         self.face_detector.draw_detection(image_bgr, detection)
                 
-                # Emotion analysis
-                try:
-                    result = self.emotion_analyzer.analyze_emotion(frame)
-                    emotion = max(result["emotion"], key=result["emotion"].get)
-                    cv2.putText(image_bgr, f"Emotion: {emotion}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                    for e, conf in result["emotion"].items():
-                        if e in self.emotion_confidences:       
-                            self.emotion_confidences[e].append(conf)
-                except Exception as e:
-                    print(f"Error analyzing frame: {e}")
-    
+                    # Emotion analysis
+                    try:
+                        result = self.emotion_analyzer.analyze_emotion(frame)
+                        emotion = max(result["emotion"], key=result["emotion"].get)
+                        cv2.putText(image_bgr, f"Emotion: {emotion}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                        for e, conf in result["emotion"].items():
+                            if e in self.emotion_confidences:       
+                                self.emotion_confidences[e].append(conf)
+                    except Exception as e:
+                        print(f"Error analyzing frame: {e}")
 
-                # Pose estimation
-                pose_results = self.pose_estimator.estimate_pose(image) #<class 'mediapipe.python.solution_base.SolutionOutputs'>  
-                # print('pose_results:',pose_results)
-                if pose_results.pose_landmarks:
-    
-                    self.pose_estimator.draw_landmarks(image_bgr, pose_results) #mp_drawing.draw_landmarks(image_bgr, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-                    landmarks = pose_results.pose_landmarks.landmark
-                    self._analyze_pose_landmarks(landmarks,image_bgr)
 
-                cv2.imshow('Frame', image_bgr)
+                    # Pose estimation
+                    pose_results = self.pose_estimator.estimate_pose(image) #<class 'mediapipe.python.solution_base.SolutionOutputs'>  
+                    # print('pose_results:',pose_results)
+                    if pose_results.pose_landmarks:
+                    
+                        self.pose_estimator.draw_landmarks(image_bgr, pose_results) #mp_drawing.draw_landmarks(image_bgr, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+                        landmarks = pose_results.pose_landmarks.landmark
+                        self._analyze_pose_landmarks(landmarks,image_bgr)
+
+                    cv2.imshow('Frame', image_bgr)
     
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
@@ -152,13 +190,17 @@ class GestureAnalyzer:
         total_frames = self.frame_count
         emotion_avg_confidences = emotionalsavg(self.emotion_confidences)
         print('emotion_avg_confidences:',emotion_avg_confidences)
-
+        positiveFaceConfidence=(emotion_avg_confidences['happy']+emotion_avg_confidences['surprise']+emotion_avg_confidences['neutral'])/3
+        negaticeFaceConfidence=(emotion_avg_confidences['angry']+emotion_avg_confidences['fear']+emotion_avg_confidences['disgust']+emotion_avg_confidences['sad'])/4
+        print('positiveFaceConfidence:',positiveFaceConfidence)
+        print('negaticeFaceConfidence:',negaticeFaceConfidence)
 
         # Pre-calculate the division factor
         div_factor = 10 / total_frames if total_frames else 0
         print( round(self.hand_usage_count * div_factor, 2))
         print(round(self.weight_on_one_leg_count * div_factor, 2))
         print(round(self.weight_balanced_count * div_factor, 2))
+        print(round((np.mean(self.face_confidences) * 10) if self.face_confidences else 0, 2))
         # Body language gestures
         gestures_analysis_data = {
             "happy": emotion_avg_confidences['happy'],
@@ -168,7 +210,7 @@ class GestureAnalyzer:
             "fear": emotion_avg_confidences['fear'],
             "disgust": emotion_avg_confidences['disgust'],
             "sad": emotion_avg_confidences['sad'],
-            "faceConfidence": round((np.mean(self.face_confidences) * 10) if self.face_confidences else 0, 2),
+            #"faceConfidence": round((np.mean(self.face_confidences) * 10) if self.face_confidences else 0, 2), 
             "lookingStraight": round(self.looking_straight_count * div_factor, 2),
             "smileCount": round(self.smile_count * div_factor, 2),
             "handUsage": round(self.hand_usage_count * div_factor, 2),
@@ -177,6 +219,8 @@ class GestureAnalyzer:
             "weightOnOneLeg": round(self.weight_on_one_leg_count * div_factor, 2),
             "legMovement": round(self.leg_movement_count * div_factor, 2),
             "weightBalancedOnBothLegs": round(self.weight_balanced_count * div_factor, 2),
-            "eyeContact": round(self.eye_contact_count * div_factor, 2)
+            "eyeContact": round(self.eye_contact_count * div_factor, 2),
+            "positiveFaceConfidence": positiveFaceConfidence,
+            "negaticeFaceConfidence":negaticeFaceConfidence
         }
         return gestures_analysis_data
