@@ -1,7 +1,7 @@
-from app.utils.convert_video_to_base64 import video_to_base64, base64_to_video
+from convert_video_to_base64 import video_to_base64, base64_to_video
 import requests
 
-video_path=r"E:\AI Ascending Software\AS AI Projects\AI facial analysis\videos for AI facial anlysis\Anderson Cooper, 4K Original_(Deep)Fake Example.mp4"#grafhic card Time taken: 0.33 minutes, local cpu Time taken: 0.77 minutes
+video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\1m 3mb.webm" #grafhic card Time taken: 0.33 minutes, local cpu Time taken: 0.77 minutes
 # video_path = r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\1m 3mb.mp4" #grafhic cardTime taken: 4.00 minutes,local cpu Time taken: 6.72 minutes,
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\3m 8mb.mp4" #Time taken: 9.27 minutes
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\5m 10mb.mp4" #Time taken: 15.51 minutes
@@ -10,7 +10,7 @@ video_path=r"E:\AI Ascending Software\AS AI Projects\AI facial analysis\videos f
 # video_path=r"D:\AI Projects\AI facial analysis\videos for AI facial anlysis\video without human voice .mp4" #low voice video
 
 base64_string = video_to_base64(video_path)
-# print(base64_string,'base64_string')
+
 output_path = "temporary_video.mp4"
 video_path = base64_to_video(base64_string, output_path)
 print(video_path)
@@ -27,7 +27,7 @@ data = {
 }
 
 def post_data(data):
-    url = 'http://192.168.1.5:5000/post_video'
+    url = 'http://192.168.1.7:5000/post_video'
     
     response = requests.post(url, json=data)
     
