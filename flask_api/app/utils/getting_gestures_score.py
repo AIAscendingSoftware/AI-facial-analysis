@@ -33,7 +33,8 @@ class GestureAnalyzer:
         original_fps = video.get(cv2.CAP_PROP_FPS)
         frame_interval = max(1, int(original_fps / self.target_fps)) if int(original_fps) > 15 else 1
         processed_frame_count = 0
-        # total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+        total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+        print("total_frames:",total_frames)
 
         while video.isOpened(): #video analysis has started
             ret, frame = video.read()
