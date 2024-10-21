@@ -1,0 +1,126 @@
+Running on CPU
+1m  video
+
+utilizing CPU
+total_VideoToAudio_time is: 0.09163928031921387
+total_audioToText is: 28.082370042800903
+GestureAnalyzer is: 132.60211825370789
+total_SpeechAnalyzer_time is: 23.45227026939392
+total_calculation is: 0.0010073184967041016
+
+
+3m video
+
+utilizing CPU
+total_VideoToAudio_time is: 0.14330410957336426
+total_audioToText is: 77.97547221183777
+GestureAnalyzer is: 340.548109292984
+total_SpeechAnalyzer_time is: 35.6713707447052
+total_calculation is: 0.0010001659393310547
+
+
+5m video
+
+utilizing CPU
+total_VideoToAudio_time is: 0.19656968116760254
+total_audioToText is: 110.65680074691772
+GestureAnalyzer is: 262.02941823005676
+total_SpeechAnalyzer_time is: 18.289952993392944
+total_calculation is: 0.0
+
+
+
+10m video
+
+utilizing CPU
+total_VideoToAudio_time is: 0.6329216957092285
+total_audioToText is: 287.13998198509216
+GestureAnalyzer is: 1464.0916895866394
+total_SpeechAnalyzer_time is: 24.62011694908142
+total_calculation is: 0.0009989738464355469
+
+
+
+
+
+
+GestureAnalyzer report after runnining on GPU
+
+1m  video
+GestureAnalyzer is: 54.01724982261658
+{'happy': 20.66115702479339, 'nautral': 0.0, 'surprise': 2.479338842975207, 'angry': 13.842975206611571, 'fear': 16.528925619834713, 'disgust': 0.0, 'sad': 24.535123966942148, 'faceConfidence': 0.82, 'lookingStraight': 72.73, 'smileCount': 44.21, 'handUsage': 71.9, 'armsCrossed': 71.59, 'wristsClosed': 12.91, 'weightOnOneLeg': 1.03, 'legMovement': 30.89, 'weightBalancedOnBothLegs': 22.31, 'eyeContact': 73.5}
+
+GestureAnalyzer is: 50.245338916778564
+{'happy': 11.333134506412168, 'nautral': 0.0, 'surprise': 1.3420817178645987, 'angry': 8.11213838353713, 'fear': 9.364747986877424, 'disgust': 0.0, 'sad': 14.554130629287204, 'faceConfidence': 0.82, 'lookingStraight': 41.99, 'smileCount': 25.59, 'handUsage': 41.52, 'armsCrossed': 41.34, 'wristsClosed': 7.46, 'weightOnOneLeg': 0.6, 'legMovement': 17.83, 'weightBalancedOnBothLegs': 12.88, 'eyeContact': 42.44, 'totalFrames': 1936, 'analyzedFrames': 3353, 'skippedFrames': 519, 'analyzedPercentage': 173.19}
+
+GestureAnalyzer is: 40.654234647750854
+{'happy': 10.330578512396695, 'neutral': 10.950413223140496, 'surprise': 1.2396694214876034, 'angry': 7.128099173553719, 'fear': 8.316115702479339, 'disgust': 0.0, 'sad': 12.035123966942148, 'faceConfidence': 0.82, 'lookingStraight': 72.31, 'smileCount': 44.16, 'handUsage': 71.54, 'armsCrossed': 71.23, 'wristsClosed': 12.91, 'weightOnOneLeg': 0.52, 'legMovement': 29.75, 'weightBalancedOnBothLegs': 22.21, 'eyeContact': 73.24}
+
+
+
+3m video
+GestureAnalyzer is: 142.3603150844574
+{'happy': 12.979410577311262, 'nautral': 0.0, 'surprise': 2.4424707307226483, 'angry': 2.825999192571659, 'fear': 26.645135244247076, 'disgust': 0.04037141703673799, 'sad': 42.59184497375858, 'faceConfidence': 0.89, 'lookingStraight': 79.45, 'smileCount': 48.63, 'handUsage': 77.39, 'armsCrossed': 77.11, 'wristsClosed': 12.49, 'weightOnOneLeg': 0.67, 'legMovement': 9.18, 'weightBalancedOnBothLegs': 0.0, 'eyeContact': 79.47}
+
+GestureAnalyzer is: 129.27371668815613
+{'happy': 7.247355390501912, 'nautral': 0.0, 'surprise': 1.3841998649561107, 'angry': 1.5755120414134591, 'fear': 14.94485707855053, 'disgust': 0.022507314877335132, 'sad': 23.643934278640558, 'faceConfidence': 0.89, 'lookingStraight': 44.29, 'smileCount': 27.1, 'handUsage': 43.15, 'armsCrossed': 42.99, 'wristsClosed': 6.97, 'weightOnOneLeg': 0.36, 'legMovement': 5.1, 'weightBalancedOnBothLegs': 0.0, 'eyeContact': 44.31, 'totalFrames': 4954, 'analyzedFrames': 8886, 'skippedFrames': 1022, 'analyzedPercentage': 179.37}
+
+GestureAnalyzer is: 99.57955598831177
+{'happy': 6.519983851433185, 'neutral': 6.580540976988292, 'surprise': 1.1303996770286637, 'angry': 1.4129995962858295, 'fear': 13.140896245458217, 'disgust': 0.060557125555106985, 'sad': 21.15462252725071, 'faceConfidence': 0.89, 'lookingStraight': 70.99, 'smileCount': 44.93, 'handUsage': 69.38, 'armsCrossed': 69.88, 'wristsClosed': 9.61, 'weightOnOneLeg': 0.08, 'legMovement': 9.12, 'weightBalancedOnBothLegs': 0.0, 'eyeContact': 71.52}
+
+
+5m video
+GestureAnalyzer is: 271.5187246799469
+{'happy': 12.837909466765609, 'nautral': 0.0, 'surprise': 1.9399978797837378, 'angry': 16.696703063712498, 'fear': 20.661507473762324, 'disgust': 0.9328951553058412, 'sad': 27.23417788614439, 'faceConfidence': 0.75, 'lookingStraight': 38.14, 'smileCount': 27.14, 'handUsage': 23.01, 'armsCrossed': 27.72, 'wristsClosed': 2.88, 'weightOnOneLeg': 2.43, 'legMovement': 31.22, 'weightBalancedOnBothLegs': 6.36, 'eyeContact': 46.43}
+
+GestureAnalyzer is: 248.0493187904358
+{'happy': 8.679653679653681, 'nautral': 0.0, 'surprise': 1.3131313131313131, 'angry': 11.34920634920635, 'fear': 14.112554112554113, 'disgust': 0.6349206349206349, 'sad': 18.535353535353536, 'faceConfidence': 0.75, 'lookingStraight': 25.88, 'smileCount': 18.44, 'handUsage': 15.62, 'armsCrossed': 18.75, 'wristsClosed': 1.97, 'weightOnOneLeg': 1.66, 'legMovement': 21.13, 'weightBalancedOnBothLegs': 4.33, 'eyeContact': 31.52, 'totalFrames': 9433, 'analyzedFrames': 13860, 'skippedFrames': 5006, 'analyzedPercentage': 146.93}
+
+GestureAnalyzer is: 192.97641897201538
+{'happy': 6.371249867486483, 'neutral': 9.837803455952507, 'surprise': 0.996501643167603, 'angry': 8.39605639775257, 'fear': 10.378458602777483, 'disgust': 0.4346443337220397, 'sad': 13.579985158486165, 'faceConfidence': 0.75, 'lookingStraight': 38.9, 'smileCount': 27.3, 'handUsage': 26.09, 'armsCrossed': 27.73, 'wristsClosed': 3.51, 'weightOnOneLeg': 2.7, 'legMovement': 31.4, 'weightBalancedOnBothLegs': 5.47, 'eyeContact': 47.41}
+
+10m video
+GestureAnalyzer is: 642.442887544632
+{'happy': 12.824039784149827, 'nautral': 0.0, 'surprise': 2.6081896095651254, 'angry': 12.707649984128663, 'fear': 20.939583112898106, 'disgust': 1.7299756639509045, 'sad': 36.41942651571262, 'faceConfidence': 0.79, 'lookingStraight': 54.38, 'smileCount': 52.49, 'handUsage': 39.67, 'armsCrossed': 56.37, 'wristsClosed': 3.76, 'weightOnOneLeg': 1.86, 'legMovement': 51.86, 'weightBalancedOnBothLegs': 6.65, 'eyeContact': 80.89}
+
+GestureAnalyzer is: 561.0065684318542
+{'happy': 7.090393000321892, 'nautral': 0.0, 'surprise': 1.4368068358060457, 'angry': 6.961636379597929, 'fear': 11.59102215199134, 'disgust': 0.9568957949258187, 'sad': 20.16211629063881, 'faceConfidence': 0.79, 'lookingStraight': 29.98, 'smileCount': 28.9, 'handUsage': 21.92, 'armsCrossed': 31.16, 'wristsClosed': 2.08, 'weightOnOneLeg': 1.03, 'legMovement': 28.63, 'weightBalancedOnBothLegs': 3.63, 'eyeContact': 44.72, 'totalFrames': 18902, 'analyzedFrames': 34173, 'skippedFrames': 3631, 'analyzedPercentage': 180.79}
+
+GestureAnalyzer is: 430.8743517398834
+{'happy': 6.364405882975347, 'neutral': 6.401439001163898, 'surprise': 1.3331922547878532, 'angry': 6.3538249920643315, 'fear': 10.490953338271082, 'disgust': 0.8570521637921913, 'sad': 18.18855147603428, 'faceConfidence': 0.79, 'lookingStraight': 53.71, 'smileCount': 51.84, 'handUsage': 39.76, 'armsCrossed': 56.33, 'wristsClosed': 3.7, 'weightOnOneLeg': 2.31, 'legMovement': 51.67, 'weightBalancedOnBothLegs': 6.62, 'eyeContact': 80.12}
+
+
+Now the GestureAnalyzer functionality time has been reduced better than before
+
+
+audioToText, In speech_recognition we can't introduce the GPU, so I'm using Parallel Processing on CPU
+1m  video
+total_audioToText is: 4.950502872467041
+
+3m video
+total_audioToText is: 13.854171752929688
+
+5m video
+total_audioToText is: 27.829846620559692
+
+10m video
+total_audioToText is: 40.365663290023804
+
+now the audioToText in speech_recognition processing time has been reduced
+
+SpeechAnalyzer
+
+1m video
+total_SpeechAnalyzer_time is: 18.47593855857849 
+
+
+3m video
+total_SpeechAnalyzer_time is: 32.87932801246643 {'grammar': 0.3, 'fluency': 0.33, 'tone': 0.36, 'voiceConfidence': 0.49, 'speechRate': 73.55, 'voiceGraphBase64': 'voice_graph_base64', 'pronunciation': 0.5}nautral
+
+5m video
+total_SpeechAnalyzer_time is: 13.618604898452759
+
+10m video
+total_SpeechAnalyzer_time is: 14.997133016586304
+1.20:8086
+I'm gonna SpeechAnalyzer as it is, there is no big difference 
