@@ -43,7 +43,7 @@ def main(video_path, videoI_userId):
     # print(vedio_details)
     
     #converting video to audio an save the audio
-    start_time=time.time()
+    start_time_=time.time()
     print('VIDEO TO AUDIO FUNCTIONALITY WORK IS STARTED')
     audio_output_path="extracted_audio.wav"
     video_to_audio_object = VideoToAudio(video_path, audio_output_path)
@@ -149,23 +149,23 @@ def main(video_path, videoI_userId):
     total_calculation=end_time-start_time
     print(f"total_calculation is:", total_calculation)
     print('TOTAL CALCULATION FUNCTIONALITY WORK IS ENDED')
-    post_video_result=API_object.post_one_video_result(one_video_data)
-    print('post_video_result:',post_video_result)
+    # post_video_result=API_object.post_one_video_result(one_video_data)
+    # print('post_video_result:',post_video_result)
 
-    print(vedio_details['userId'], type(vedio_details['userId']))
-    result = API_object.get_details(vedio_details['userId'])
-    print(result, type(result), len(result), 'final result data')
-    # final_out=json.dumps(result(combined_dict), indent=4)
-    # print(final_out, len(final_out), type(final_out), 'final ou data')
-    final_out = find_average(result)
-    print('final_out:',final_out)
-    # to post final score
-    API_object.post_final_data(final_out)
-    end_time = time.time()
+    # print(vedio_details['userId'], type(vedio_details['userId']))
+    # result = API_object.get_details(vedio_details['userId'])
+    # print(result, type(result), len(result), 'final result data')
+    # # final_out=json.dumps(result(combined_dict), indent=4)
+    # # print(final_out, len(final_out), type(final_out), 'final ou data')
+    # final_out = find_average(result)
+    # print('final_out:',final_out)
+    # # to post final score
+    # API_object.post_final_data(final_out)
+    end_time_ = time.time()
     # # Calculate the time taken in seconds
-    time_taken = end_time - start_time
+    time_taken = end_time_ - start_time_
     # # Convert seconds to minutes
     time_taken_minutes = time_taken / 60
-    print(f"Time taken: {time_taken_minutes:.2f} minutes, start tiume: {start_time}, end time:{end_time}")
+    print(f"Time taken: {time_taken_minutes:.2f} minutes, start tiume: {start_time_}, end time:{end_time_}")
     
     return 'data processed successfuly finished'
